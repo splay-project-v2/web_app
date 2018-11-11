@@ -1,0 +1,2 @@
+class Splayd < ApplicationRecord
+end
