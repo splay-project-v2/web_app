@@ -5,7 +5,7 @@
       <div class="col"></div>
       <div class="col-12">
         <Alerts v-bind:arrayMsgError="{}" v-bind:arrayMsgSucces="{}" v-bind:arrayMsgWarning="{}"/>
-        <Body/>
+        <router-view/>
       </div>
       <div class="col"></div>
     </div>
@@ -19,9 +19,10 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Header from "./components/Header.vue";
-import Alerts from "./components/Alerts.vue";
-import Body from "./components/Body.vue";
 import Footer from "./components/Footer.vue";
+
+import Alerts from "./components/Alerts.vue";
+
 
 export default {
   name: "app",
@@ -32,7 +33,6 @@ export default {
   components: {
     Header,
     Alerts,
-    Body,
     Footer
   }
 };

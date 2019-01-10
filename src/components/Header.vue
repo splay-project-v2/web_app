@@ -1,9 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark ">
-    <a class="navbar-brand" href="#">
+  <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
+    <router-link to="/" class="navbar-brand" href="#">
       <img src="icon.png" width="30" height="30" class="d-inline-block align-top" alt="Icon">
       Splay V2
-    </a>
+    </router-link>
     <button
       class="navbar-toggler"
       type="button"
@@ -17,12 +17,16 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarCollapsable">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        
-      </ul>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
       <form class="form-inline my-2 my-lg-0">
-        <button id="btn-login" class="btn btn-success" type="button">Login</button>
-        <button class="btn btn-secondary" type="button">Register</button>
+        <router-link
+          tag="button"
+          to="/login"
+          id="btn-login"
+          class="btn btn-success"
+          type="button"
+        >Login</router-link>
+        <router-link tag="button" to="/register" class="btn btn-secondary" type="button">Register</router-link>
       </form>
     </div>
   </nav>
@@ -32,9 +36,7 @@
 export default {
   name: "Header",
   props: {},
-  methods: {
-    
-  }
+  methods: {}
 };
 </script>
 
