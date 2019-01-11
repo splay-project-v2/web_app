@@ -1,24 +1,24 @@
 <template>
   <div>
-    <b-alert v-for="(msg, keyO) in arrayMsgError" v-bind:key="'error' + keyO" v-bind:msg="msg"
+    <b-alert v-if="errorMsg"
             variant="danger"
             dismissible fade
             show>
-    {{ msg }} - {{ keyO }}
+      <span v-html="errorMsg"></span>
     </b-alert>
 
-    <b-alert v-for="(msg, keyO) in arrayMsgWarning" v-bind:key="'warning' + keyO" v-bind:msg="msg"
+    <b-alert v-if="warningMsg"
             variant="warning"
             dismissible fade
             show>
-    {{ msg }} - {{ keyO }}
+      <span v-html="warningMsg"></span>
     </b-alert>
 
-    <b-alert v-for="(msg, keyO) in arrayMsgSucces" v-bind:key="'success' + keyO" v-bind:msg="msg"
+    <b-alert v-if="successMsg"
             variant="success"
             dismissible fade
             show>
-    {{ msg }} - {{ keyO }}
+      <span v-html="successMsg"></span>
     </b-alert>
   </div>
 </template>
@@ -27,9 +27,9 @@
 export default {
   name: "Alerts",
   props: {
-    arrayMsgError : Object,
-    arrayMsgWarning : Object,
-    arrayMsgSucces : Object
+    errorMsg : String,
+    warningMsg : String,
+    successMsg : String
   },
   methods: {
     

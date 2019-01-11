@@ -1,6 +1,11 @@
 <template>
   <div class="container">
     <h1 class="text-center">Login</h1>
+    <Alerts
+      v-bind:errorMsg="alerts.error"
+      v-bind:warningMsg="alerts.warning"
+      v-bind:successMsg="alerts.success"
+    />
     <form>
       <div class="form-group">
         <label for="usernameLogin">Username</label>
@@ -30,6 +35,8 @@
 </template>
 
 <script>
+import Alerts from "./Alerts.vue";
+
 export default {
   name: "Login",
   data() {
@@ -37,13 +44,25 @@ export default {
       input: {
         username: "",
         password: ""
+      },
+      alerts: {
+        error: null,
+        success: null,
+        warning: null
       }
     };
   },
   methods: {
     login() {
-      this.$router.replace("home");
+      if (this.input.username == "" || this.input.password == "") {
+        this.alerts.error = "Can't be <b>empty</b> username or password";
+      } else {
+        this.$router.replace("home");
+      }
     }
+  },
+  components: {
+    Alerts
   }
 };
 </script>
