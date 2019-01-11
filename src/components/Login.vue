@@ -54,11 +54,24 @@ export default {
   },
   methods: {
     login() {
-      if (this.input.username == "" || this.input.password == "") {
-        this.alerts.error = "Can't be <b>empty</b> username or password";
-      } else {
-        this.$router.replace("home");
+      if (this.checkInputs()) {
+        // TODO API
+        // eslint-disable-next-line 
+        new Promise((resolve, reject)=>{
+          resolve({"username" : this.input.username, "token": "TOKEN-TODO"})
+        }).then((res) => {
+          this.$emit('login', res.username, res.token)
+          this.$router.replace("home");
+        })
       }
+    },
+    checkInputs() {
+      if (this.input.username == "" || this.input.password == "") {
+        this.alerts.error = "Username or Password can't be <b>empty</b>";
+        this.alerts.success = null
+        return false
+      } 
+      return true;
     }
   },
   components: {

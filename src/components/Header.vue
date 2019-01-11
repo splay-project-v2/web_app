@@ -20,13 +20,27 @@
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
       <form class="form-inline my-2 my-lg-0">
         <router-link
+          v-if="!auth.isAuth"
           tag="button"
           to="/login"
           id="btn-login"
           class="btn btn-success"
           type="button"
         >Login</router-link>
-        <router-link tag="button" to="/register" class="btn btn-secondary" type="button">Register</router-link>
+        <router-link
+          v-if="!auth.isAuth"
+          tag="button"
+          to="/register"
+          class="btn btn-secondary"
+          type="button"
+        >Register</router-link>
+
+        <button
+          v-if="auth.isAuth"
+          class="btn btn-danger"
+          type="button"
+          v-on:click="$emit('logout')"
+        >Logout : {{ auth.username }}</button>
       </form>
     </div>
   </nav>
@@ -35,7 +49,9 @@
 <script>
 export default {
   name: "Header",
-  props: {},
+  props: {
+    auth: Object
+  },
   methods: {}
 };
 </script>

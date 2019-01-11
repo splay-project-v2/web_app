@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1 v-if="auth.isAuth">Welcome {{ auth.username }}</h1>
     <p>Nisi nibh nisi dictumst risus diam vestibulum taciti sollicitudin risus hac iaculis eros. Felis, a ultrices sed mattis justo blandit nisi purus luctus diam porta cras. Justo senectus natoque penatibus purus. Risus aptent vitae litora curabitur ultricies elementum sit, pulvinar mollis. Amet, feugiat mollis nostra euismod turpis vel cum blandit quis. Integer interdum luctus mus nam magnis tempor nunc urna. Pretium penatibus vivamus morbi nostra pellentesque dapibus. Pretium dui conubia tellus ut platea, ipsum platea. Et cras iaculis sociis. Neque sociis iaculis torquent rutrum. Per molestie sit congue at.</p>
     <p>Sed consectetur porta et risus duis fusce suscipit a lectus class. Maecenas pretium laoreet aliquet nec sit id. Hac velit faucibus egestas, nam at hac per. Velit tortor bibendum ut sociis interdum. Metus sagittis eget natoque dolor, suspendisse tellus. Eros curae; vivamus porta feugiat mauris orci sed rutrum imperdiet! Sem viverra donec elit ut magnis eget? Justo tristique, viverra ultricies. Vulputate taciti arcu nisi elementum faucibus augue praesent platea risus tempor natoque. Ridiculus sollicitudin eget phasellus egestas consequat porta euismod lobortis duis. Mattis viverra fames?</p>
     <p>Ac congue auctor curabitur fermentum. Vehicula quam, dignissim torquent? Ridiculus facilisi posuere mi quisque ipsum sociosqu sodales volutpat montes leo. Phasellus egestas eu ac fringilla, integer purus hendrerit adipiscing dis! Pellentesque nec ipsum consectetur sodales massa tempor praesent lacus massa quis. Cras suspendisse litora metus pulvinar rhoncus purus lectus. Eget cursus semper.</p>
@@ -21,7 +22,9 @@
 <script>
 export default {
   name: "Home",
-  props: {},
+  props: { 
+    auth : Object
+  },
   methods: {}
 };
 </script>
