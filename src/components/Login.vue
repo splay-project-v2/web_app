@@ -1,11 +1,12 @@
 <template>
   <div class="container">
     <h1 class="text-center">Login</h1>
-    <Alerts
-      v-bind:errorMsg="alerts.error"
-      v-bind:warningMsg="alerts.warning"
-      v-bind:successMsg="alerts.success"
-    />
+    <b-alert variant="danger" dismissible fade :show="alerts.error" @dismissed="alerts.error=null">
+      <span v-html="alerts.error"></span>
+    </b-alert>
+    <b-alert variant="warning" dismissible fade :show="alerts.warning" @dismissed="alerts.warning=null">
+      <span v-html="alerts.warning"></span>
+    </b-alert>
     <form>
       <div class="form-group">
         <label for="usernameLogin">Username</label>
@@ -35,8 +36,6 @@
 </template>
 
 <script>
-import Alerts from "./Alerts.vue";
-
 export default {
   name: "Login",
   data() {
@@ -56,27 +55,24 @@ export default {
     login() {
       if (this.checkInputs()) {
         // TODO API
-        // eslint-disable-next-line 
-        new Promise((resolve, reject)=>{
-          resolve({"username" : this.input.username, "token": "TOKEN-TODO"})
-        }).then((res) => {
-          this.$emit('login', res.username, res.token)
+        // eslint-disable-next-line
+        new Promise((resolve, reject) => {
+          resolve({ username: this.input.username, token: "TOKEN-TODO" });
+        }).then(res => {
+          this.$emit("login", res.username, res.token);
           this.$router.replace("home");
-        })
+        });
       }
     },
     checkInputs() {
       if (this.input.username == "" || this.input.password == "") {
         this.alerts.error = "Username or Password can't be <b>empty</b>";
-        this.alerts.success = null
-        return false
-      } 
+        return false;
+      }
       return true;
     }
   },
-  components: {
-    Alerts
-  }
+  components: {}
 };
 </script>
 

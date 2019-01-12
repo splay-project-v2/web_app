@@ -5,10 +5,11 @@
       <div class="col"></div>
       <div class="col-12">
 
-        <b-alert v-if="alerts.success"
+        <b-alert
             variant="success"
             dismissible fade
-            show>
+            :show="alerts.success"
+            @dismissed="alerts.success=null">
           <span v-html="alerts.success"></span>
         </b-alert>
 
