@@ -8,7 +8,7 @@
         <b-alert
             variant="success"
             dismissible fade
-            :show="alerts.success"
+            :show="alerts.success != null"
             @dismissed="alerts.success=null">
           <span v-html="alerts.success"></span>
         </b-alert>

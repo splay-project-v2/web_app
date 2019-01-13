@@ -1,11 +1,8 @@
 <template>
   <div class="container">
     <h1 class="text-center">Login</h1>
-    <b-alert variant="danger" dismissible fade :show="alerts.error" @dismissed="alerts.error=null">
+    <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
       <span v-html="alerts.error"></span>
-    </b-alert>
-    <b-alert variant="warning" dismissible fade :show="alerts.warning" @dismissed="alerts.warning=null">
-      <span v-html="alerts.warning"></span>
     </b-alert>
     <form>
       <div class="form-group">
@@ -45,9 +42,7 @@ export default {
         password: ""
       },
       alerts: {
-        error: null,
-        success: null,
-        warning: null
+        error: null
       }
     };
   },

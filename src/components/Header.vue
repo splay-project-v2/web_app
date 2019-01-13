@@ -27,6 +27,14 @@
           class="btn btn-success"
           type="button"
         >Login</router-link>
+
+        <button
+          v-else
+          class="btn btn-danger"
+          type="button"
+          v-on:click="$emit('logout')"
+        >Logout : {{ auth.username }}</button>
+
         <router-link
           v-if="!auth.isAuth"
           tag="button"
@@ -35,12 +43,6 @@
           type="button"
         >Register</router-link>
 
-        <button
-          v-if="auth.isAuth"
-          class="btn btn-danger"
-          type="button"
-          v-on:click="$emit('logout')"
-        >Logout : {{ auth.username }}</button>
       </form>
     </div>
   </nav>
