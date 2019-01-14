@@ -22,8 +22,24 @@
         <router-link
           v-if="!auth.isAuth"
           tag="button"
+          to="/register"
+          class="btn btn-secondary"
+          type="button"
+        >Register</router-link>
+
+        <router-link
+          v-if="auth.isAuth"
+          tag="button"
+          to="/jobs"
+          class="btn btn-primary"
+          type="button"
+        >Your Jobs</router-link>
+
+        <router-link
+          v-if="!auth.isAuth"
+          tag="button"
           to="/login"
-          id="btn-login"
+          id="btn-header-login"
           class="btn btn-success"
           type="button"
         >Login</router-link>
@@ -32,17 +48,9 @@
           v-else
           class="btn btn-danger"
           type="button"
+          id="btn-header-logout"
           v-on:click="$emit('logout')"
         >Logout : {{ auth.username }}</button>
-
-        <router-link
-          v-if="!auth.isAuth"
-          tag="button"
-          to="/register"
-          class="btn btn-secondary"
-          type="button"
-        >Register</router-link>
-
       </form>
     </div>
   </nav>
@@ -59,8 +67,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#btn-login {
-  margin-right: 5px;
+<style>
+#btn-header-login {
+  margin-left: 5px;
+}
+#btn-header-logout {
+  margin-left: 5px;
 }
 </style>
