@@ -29,4 +29,7 @@ function registerAPI(user, email, password, passwordConfirmation) {
     })
 }
 
-export { loginAPI , registerAPI }
+export {
+    loginAPI,
+    registerAPI
+}

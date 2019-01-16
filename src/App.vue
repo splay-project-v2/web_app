@@ -4,12 +4,13 @@
     <div class="container mt-3 mb-3">
       <div class="col"></div>
       <div class="col-12">
-
         <b-alert
-            variant="success"
-            dismissible fade
-            :show="alerts.success != null"
-            @dismissed="alerts.success=null">
+          variant="success"
+          dismissible
+          fade
+          :show="alerts.success != null"
+          @dismissed="alerts.success=null"
+        >
           <span v-html="alerts.success"></span>
         </b-alert>
 
@@ -48,13 +49,13 @@ export default {
       this.auth.isAuth = true;
       this.auth.username = user;
       this.auth.token = token;
-      this.alerts.success = `Welcome into SplayV2 <b>${user}</b>!`
+      this.alerts.success = `Welcome into SplayV2 <b>${user}</b>!`;
     },
     logout() {
       this.auth.isAuth = false;
       this.auth.username = null;
       this.auth.token = null;
-      this.alerts.success = `<b>Logout</b> success!`
+      this.alerts.success = `<b>Logout</b> success!`;
     }
   },
   components: {

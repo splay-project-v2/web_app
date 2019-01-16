@@ -23,7 +23,7 @@
           v-if="!auth.isAuth"
           tag="button"
           to="/register"
-          class="btn btn-secondary"
+          class="btn btn-secondary mr-2"
           type="button"
         >Register</router-link>
 
@@ -68,10 +68,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-#btn-header-login {
-  margin-left: 5px;
-}
-#btn-header-logout {
-  margin-left: 5px;
-}
 </style>

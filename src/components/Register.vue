@@ -72,7 +72,7 @@ export default {
     register() {
       if (this.checkInputs()) {
         const username = this.input.username;
-        this.alerts.errors = "";
+        this.alerts.errors = null;
         registerAPI(
           username,
           this.input.email,
@@ -87,9 +87,9 @@ export default {
             // eslint-disable-next-line
             console.error(error);
             if (error.response) {
-              this.alerts.error = "Response : " + error.response;
+              this.alerts.errors = "Response : " + error.response;
             } else {
-              this.alerts.error = "Error : " + error.message;
+              this.alerts.errors = "Error : " + error.message;
             }
           });
       }
