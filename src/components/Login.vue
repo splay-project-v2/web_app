@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { loginAPI } from "./services/api";
+
 export default {
   name: "Login",
   data() {
@@ -49,14 +51,21 @@ export default {
   methods: {
     login() {
       if (this.checkInputs()) {
-        // TODO API
-        // eslint-disable-next-line
-        new Promise((resolve, reject) => {
-          resolve({ username: this.input.username, token: "TOKEN-TODO" });
-        }).then(res => {
-          this.$emit("login", res.username, res.token);
-          this.$router.replace("home");
-        });
+        const username = this.input.username;
+        loginAPI(username, this.input.password)
+          .then(res => {
+            this.$emit("login", username, res.data.token);
+            this.$router.replace("home");
+          })
+          .catch(error => {
+            // eslint-disable-next-line
+            console.error(error);
+            if (error.response) {
+              this.alerts.error = "Response : " + error.response;
+            } else {
+              this.alerts.error = "Error : " + error.message;
+            }
+          });
       }
     },
     checkInputs() {

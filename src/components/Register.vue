@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import { registerAPI } from "./services/api";
+
 export default {
   name: "Register",
   data() {
@@ -69,14 +71,27 @@ export default {
   methods: {
     register() {
       if (this.checkInputs()) {
-        // TODO API
-        // eslint-disable-next-line
-        new Promise((resolve, reject) => {
-          resolve({ username: this.input.username, token: "TOKEN-TODO" });
-        }).then(res => {
-          this.$emit("login", res.username, res.token);
-          this.$router.replace("home");
-        });
+        const username = this.input.username;
+        this.alerts.errors = "";
+        registerAPI(
+          username,
+          this.input.email,
+          this.input.password1,
+          this.input.password2
+        )
+          .then(res => {
+            this.$emit("login", username, res.data.token);
+            this.$router.replace("home");
+          })
+          .catch(error => {
+            // eslint-disable-next-line
+            console.error(error);
+            if (error.response) {
+              this.alerts.error = "Response : " + error.response;
+            } else {
+              this.alerts.error = "Error : " + error.message;
+            }
+          });
       }
     },
     checkInputs() {
