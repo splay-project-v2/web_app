@@ -1,7 +1,29 @@
-# Web app of splay v2 project
+# splay
 
-## TODO
+## Project setup
+```
+npm install
+```
 
-- [ ] Decision should be taken concerning whether SplayWeb OR the Controller is in charge of setting up the DB. The solution for now is to adapt SplayWeb to the existing DB without playing with ActiveRecord's migrations, which is not really maintainable.
-- [ ] Implemented all old features (see trash old_splayweb)
-- [ ] Merge backend and this backend of web_app
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
