@@ -8,7 +8,7 @@ function loginAPI(user, password) {
         data: {
             type: 'session',
             attributes: {
-                login: user,
+                username: user,
                 password: password
             }
         }
@@ -21,7 +21,7 @@ function registerAPI(user, email, password, passwordConfirmation) {
             type: 'session',
             attributes: {
                 email: email,
-                login: user,
+                username: user,
                 password: password,
                 password_confirmation: passwordConfirmation
             }

@@ -31,7 +31,7 @@
           v-if="auth.isAuth"
           tag="button"
           to="/jobs"
-          class="btn btn-primary"
+          class="btn btn-primary mr-2"
           type="button"
         >Your Jobs</router-link>
 

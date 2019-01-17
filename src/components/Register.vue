@@ -87,7 +87,7 @@ export default {
             // eslint-disable-next-line
             console.error(error);
             if (error.response) {
-              this.alerts.errors = "Response : " + error.response;
+              this.alerts.errors = "Server response : " + error.response.data.errors;
             } else {
               this.alerts.errors = "Error : " + error.message;
             }
