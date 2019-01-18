@@ -1,25 +1,27 @@
 <template>
   <div class="container">
     <h1>Register</h1>
-    <b-alert variant="danger" fade :show="alerts.errors != null" @dismissed="alerts.errors=null">
-      <ul v-if="Array.isArray(alerts.errors)">
-        <li v-for="(msgE, index) in alerts.errors" v-bind:key="'regErr' + index">
-          <span v-html="msgE"></span>
-        </li>
-      </ul>
-      <span v-else v-html="alerts.errors"></span>
+    <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
+      <span v-html="alerts.error"></span>
     </b-alert>
-
-    <b-form>
-      <b-form-group label="Username :" label-for="usernameRegister" description="Allow to login">
+    <!-- USERNAME FIELD -->
+    <b-form @submit="submitRegister">
+      <b-form-group
+        label="Username :"
+        label-for="usernameRegister"
+        :state="inputError.username.state"
+        :invalid-feedback="inputError.username.msgE"
+      >
         <b-form-input
           id="usernameRegister"
           type="text"
           v-model="input.username"
           required
-          placeholder="username"
+          placeholder="Username"
+          :state="inputError.username.state"
         ></b-form-input>
       </b-form-group>
+      <!-- EMAIL FIELD -->
       <b-form-group label="Email :" label-for="emailRegister">
         <b-form-input
           id="emailRegister"
@@ -28,23 +30,38 @@
           placeholder="Enter email"
         ></b-form-input>
       </b-form-group>
-      <b-form-group label="Password :" label-for="passwordRegister1">
+      <!-- PASSWORD FIELD -->
+      <b-form-group
+        label="Password :"
+        label-for="passwordRegister1"
+        :state="inputError.password1.state"
+        :invalid-feedback="inputError.password1.msgE"
+      >
         <b-form-input
           id="passwordRegister1"
           type="password"
           v-model="input.password1"
           placeholder="Password"
+          :state="inputError.password1.state"
         ></b-form-input>
       </b-form-group>
-      <b-form-group label="Password confirmation :" label-for="passwordRegister2">
+      <!-- PASSWORD CONFIRMATION FIELD -->
+      <b-form-group
+        label="Password confirmation :"
+        label-for="passwordRegister2"
+        :state="inputError.password2.state"
+        :invalid-feedback="inputError.password2.msgE"
+      >
         <b-form-input
           id="passwordRegister2"
           type="password"
           v-model="input.password2"
           placeholder="Password confirmation"
+          :state="inputError.password2.state"
         ></b-form-input>
       </b-form-group>
-      <b-button variant="primary" v-on:click="register">Submit</b-button>
+      <!-- SUBMIT BUTTON -->
+      <b-button variant="primary" type="submit">Register</b-button>
     </b-form>
   </div>
 </template>
@@ -56,6 +73,20 @@ export default {
   name: "Register",
   data() {
     return {
+      inputError: {
+        username: {
+          state: null,
+          msgE: ""
+        },
+        password1: {
+          state: null,
+          msgE: ""
+        },
+        password2: {
+          state: null,
+          msgE: ""
+        }
+      },
       input: {
         username: "",
         password1: "",
@@ -63,16 +94,20 @@ export default {
         email: ""
       },
       alerts: {
-        errors: null
+        error: null
       }
     };
   },
   props: {},
   methods: {
-    register() {
+    submitRegister(evt) {
+      evt.preventDefault();
+      Object.keys(this.inputError).forEach((key) => {
+        this.inputError[key].state = null
+      })
+      this.alerts.error = null;
       if (this.checkInputs()) {
         const username = this.input.username;
-        this.alerts.errors = null;
         registerAPI(
           username,
           this.input.email,
@@ -87,32 +122,36 @@ export default {
             // eslint-disable-next-line
             console.error(error);
             if (error.response) {
-              this.alerts.errors = "Server response : " + error.response.data.errors;
+              this.alerts.error =
+                "Server response : " + error.response.data.errors;
             } else {
-              this.alerts.errors = "Error : " + error.message;
+              this.alerts.error = "Error : " + error.message;
             }
           });
       }
     },
     checkInputs() {
-      const alerts = [];
-
-      if (this.input.username.length < 4) {
-        alerts.push(
-          "The <b>Username</b> need to have more than <b>4 caracters!</b>"
-        );
+      if (this.input.username.length < 4 || this.input.username.length > 20) {
+        this.inputError.username.state = false;
+        this.inputError.username.msgE =
+          "The <b>Username</b> need to have more than <b>4 caracters!</b>";
       }
-      if (this.input.password1.length < 4) {
-        alerts.push(
-          "The <b>Password</b> need to have more than <b>4 caracters!</b> "
-        );
+      if (this.input.password1.length < 6) {
+        this.inputError.password1.state = false;
+        this.inputError.password1.msgE =
+          "The password need to have more than 5 characters";
       }
       if (this.input.password1 !== this.input.password2) {
-        alerts.push("The <b>second password</b> isn't the same than other!");
+        this.inputError.password2.state = false;
+        this.inputError.password2.msgE = "It is not the same than above";
       }
 
-      if (alerts.length > 0) {
-        this.alerts.errors = alerts;
+      if (
+        !Object.keys(this.inputError).every(key => {
+          return this.inputError[key].state || this.inputError[key].state === null;
+        })
+      ) {
+        this.alerts.error = "Some inputs aren't valid => see details below";
         return false;
       }
       return true;

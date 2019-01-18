@@ -4,31 +4,29 @@
     <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
       <span v-html="alerts.error"></span>
     </b-alert>
-    <form>
-      <div class="form-group">
-        <label for="usernameLogin">Username</label>
-        <input
-          v-model="input.username"
-          id="usernameLogin"
-          class="form-control"
-          type="text"
-          name="username"
-          placeholder="Username"
-        >
-      </div>
-      <div class="form-group">
-        <label for="passwordLogin">Password</label>
-        <input
-          v-model="input.password"
-          id="passwordLogin"
-          class="form-control"
-          type="password"
-          name="password"
-          placeholder="Password"
-        >
-      </div>
-      <button type="button" class="btn btn-primary" v-on:click="login()">Login</button>
-    </form>
+    <b-form @submit="submitLogin">
+
+      <b-form-group label="Your Username : "
+                    label-for="usernameLogin">
+        <b-form-input id="usernameLogin"
+                      type="text"
+                      v-model="input.username"
+                      required
+                      placeholder="Username">
+        </b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Your Password : "
+                    label-for="passwordLogin">
+        <b-form-input id="passwordLogin"
+                      type="password"
+                      v-model="input.password"
+                      required
+                      placeholder="Password">
+        </b-form-input>
+      </b-form-group>
+      <b-button type="submit" variant="primary">Login</b-button>
+    </b-form>
   </div>
 </template>
 
@@ -49,7 +47,8 @@ export default {
     };
   },
   methods: {
-    login() {
+    submitLogin(evt) {
+      evt.preventDefault();
       if (this.checkInputs()) {
         const username = this.input.username;
         loginAPI(username, this.input.password)
