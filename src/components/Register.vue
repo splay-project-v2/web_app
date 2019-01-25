@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h1>Register</h1>
+    <h1 class="text-center">Register</h1>
+    <hr class="my-4">
     <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
       <span v-html="alerts.error"></span>
     </b-alert>

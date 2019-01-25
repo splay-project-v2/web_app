@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h1>Your Jobs</h1>
+    <h1 class="text-center">Your Jobs</h1>
+    <hr class="my-4">
     <b-alert
       variant="success"
       dismissible
