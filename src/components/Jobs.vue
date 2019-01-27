@@ -31,7 +31,23 @@ export default {
         success: null
       },
       table: {
-        jobs: [
+        jobs: [],
+        fields: ["status", "id", "created_at", "nb_splayds", "name", "actions"]
+      }
+    };
+  },
+  methods: {
+    detail(item) {
+      this.$router.push({ name: 'jobsDetails', params: { id: item.id } })
+    },
+    kill(item) {
+      this.alerts.success = "I kill " + item.id;
+    }
+  },
+  mounted() {
+    new Promise((resolve) => {
+      setTimeout(function() {
+        resolve([
           {
             status: "On",
             id: 1,
@@ -60,18 +76,12 @@ export default {
             nb_splayds: 5,
             name: "Small text"
           }
-        ],
-        fields: ["status", "id", "created_at", "nb_splayds", "name", "actions"]
-      }
-    };
-  },
-  methods: {
-    detail(item) {
-      this.alerts.success = "I show detail of " + item.id;
-    },
-    kill(item) {
-      this.alerts.success = "I kill " + item.id;
-    }
+        ])
+      }, 1000);
+      
+    }).then((res) => {
+      this.table.jobs = res
+    });
   },
   props: {
     auth: Object

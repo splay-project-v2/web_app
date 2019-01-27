@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Jobs from '@/components/Jobs'
+import JobDetail from '@/components/JobDetail'
 
 Vue.use(Router)
 
@@ -29,7 +30,13 @@ export default new Router({
         }, // Only when authentificated
         {
             path: '/jobs',
+            name: "jobs",
             component: Jobs
+        },
+        {
+            path: '/jobs/:id',
+            name: "jobsDetails",
+            component: JobDetail
         }
     ]
 })
