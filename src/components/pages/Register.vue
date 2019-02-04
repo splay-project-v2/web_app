@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { registerAPI } from "./services/api";
+import { registerAPI } from "@/services/api";
 
 export default {
   name: "Register",

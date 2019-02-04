@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { loginAPI } from "./services/api";
+import { loginAPI } from "@/services/api";
 
 export default {
   name: "Login",

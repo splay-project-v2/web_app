@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Login from '@/components/Login'
-import Register from '@/components/Register'
-import Jobs from '@/components/Jobs'
-import JobDetail from '@/components/JobDetail'
+import Home from '@/components/pages/Home'
+import Login from '@/components/pages/Login'
+import Register from '@/components/pages/Register'
+import Jobs from '@/components/pages/Jobs'
+import JobDetail from '@/components/pages/JobDetail'
 
 Vue.use(Router)
 
