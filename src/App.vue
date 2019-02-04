@@ -38,9 +38,10 @@ export default {
         success: null
       },
       auth: {
-        isAuth: false,
-        username: null,
-        token: null
+        isAuth: localStorage.username != null && localStorage.token != null,
+        username: localStorage.username,
+        token: localStorage.token,
+        checked: false
       }
     };
   },
@@ -49,18 +50,29 @@ export default {
       this.auth.isAuth = true;
       this.auth.username = user;
       this.auth.token = token;
+
+      localStorage.username = user
+      localStorage.token = token
+
       this.alerts.success = `Welcome into SplayV2 <b>${user}</b>!`;
     },
     logout() {
       this.auth.isAuth = false;
       this.auth.username = null;
       this.auth.token = null;
+
+      localStorage.removeItem("username")
+      localStorage.removeItem("token")
+
       this.alerts.success = `<b>Logout</b> success!`;
     }
   },
   components: {
     Header,
     Footer
+  },
+  mounted() {
+    
   }
 };
 </script>
