@@ -29,7 +29,49 @@ function registerAPI(user, email, password, passwordConfirmation) {
     })
 }
 
+function createJobAPI(token, name, description, nbSplayd, code) {
+    var config = {
+        headers: {'Authorization': "bearer " + token}
+    };
+    return axios.post(URL_API_V1 + "/jobs", {
+        data: {
+            type: 'user',
+            attributes: {
+                code: code,
+                name: name,
+                description: description,
+                nb_splayds: nbSplayd
+            }
+        }
+    }, config)
+}
+
+function listJobsAPI(token) {
+    var config = {
+        headers: {'Authorization': "bearer " + token}
+    };
+    return axios.get(URL_API_V1 + "/jobs", config)
+}
+
+function getJobAPI(token, idJob) {
+    var config = {
+        headers: {'Authorization': "bearer " + token}
+    };
+    return axios.get(URL_API_V1 + `/jobs/${idJob}`, config)
+}
+
+function removeJobAPI(token, idJob){
+    var config = {
+        headers: {'Authorization': "bearer " + token}
+    };
+    return axios.delete(URL_API_V1 + `/jobs/${idJob}`, config)
+}
+
 export {
     loginAPI,
-    registerAPI
+    registerAPI,
+    createJobAPI,
+    listJobsAPI,
+    getJobAPI,
+    removeJobAPI
 }

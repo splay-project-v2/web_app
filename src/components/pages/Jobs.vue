@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <h1 class="text-center">Create a Job</h1>
+    <hr class="my-4">
+    <JobForm v-bind:auth="auth" @newJob="fetchJobs"/>
+
     <h1 class="text-center">Your Jobs</h1>
     <hr class="my-4">
     <b-alert
@@ -15,14 +19,19 @@
     <b-table striped hover :items="table.jobs" :fields="table.fields">
       <template slot="actions" slot-scope="row">
         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-        <b-button size="sm" @click.stop="detail(row.item)" class="mr-1">Show details</b-button>
-        <b-button size="sm" variant="danger" @click.stop="kill(row.item)">Kill</b-button>
+        <b-button size="sm" @click.stop="detail(row.item)" class="mr-1">Details</b-button>
+        <b-button size="sm" variant="danger" @click.stop="kill(row.item)" class="mr-1">Kill</b-button>
+        <b-button size="sm" variant="danger" @click.stop="removeJob(row.item)">Remove</b-button>
+
       </template>
     </b-table>
   </div>
 </template>
 
 <script>
+import JobForm from '../partials/JobForm'
+import { listJobsAPI, removeJobAPI } from '@/services/api'
+
 export default {
   name: "Jobs",
   data() {
@@ -38,55 +47,31 @@ export default {
   },
   methods: {
     detail(item) {
-      this.$router.push({ name: 'jobsDetails', params: { id: item.id } })
+      this.$router.push({ name: 'jobDetails', params: { id: item.id } })
     },
     kill(item) {
       this.alerts.success = "I kill " + item.id;
+    },
+    removeJob(item) {
+      removeJobAPI(this.auth.token, item.id).then(() => {
+        this.fetchJobs()
+      })
+    },
+    fetchJobs() {
+      listJobsAPI(this.auth.token).then((res) => {
+        this.table.jobs = res.data.jobs
+      })
     }
   },
   mounted() {
-    new Promise((resolve) => {
-      setTimeout(function() {
-        resolve([
-          {
-            status: "On",
-            id: 1,
-            created_at: "12/12/2018",
-            nb_splayds: 10,
-            name: "Hello world"
-          },
-          {
-            status: "Off",
-            id: 2,
-            created_at: "01/01/2019",
-            nb_splayds: 5,
-            name: "Small tes"
-          },
-          {
-            status: "On",
-            id: 3,
-            created_at: "12/12/2018",
-            nb_splayds: 10,
-            name: "Hello world"
-          },
-          {
-            status: "Off",
-            id: 4,
-            created_at: "01/01/2019",
-            nb_splayds: 5,
-            name: "Small text"
-          }
-        ])
-      }, 1000);
-      
-    }).then((res) => {
-      this.table.jobs = res
-    });
+    this.fetchJobs()
   },
   props: {
     auth: Object
   },
-  components: {}
+  components: {
+    JobForm
+  }
 };
 </script>
 
