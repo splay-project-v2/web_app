@@ -16,17 +16,31 @@
       v-bind:auth="auth"
       v-bind:jobs="jobs"
       @refreshJobs="fetchJobs"
-      @showJobDetails="detail"    />
+      @showJobDetails="detailJob"
+    />
 
     <div class="text-center">
       <b-btn v-b-modal.modalCreateJob variant="primary">Create new job</b-btn>
     </div>
+
+    <h1 class="text-center mt-5">List Splay Daemons</h1>
+    <hr class="my-4">
+    <ListSplayd
+      v-bind:auth="auth"
+      v-bind:splayds="splayds"
+      @showSplaydDetails="detailSplayd"
+    />
+
     <b-modal ref="modalCreateJobRef" id="modalCreateJob" size="lg" hide-footer title="Create a Job">
       <JobForm v-bind:auth="auth" @newJob="fetchJobs(); $refs.modalCreateJobRef.hide();"/>
-    </b-modal>  
+    </b-modal>
 
     <b-modal ref="modalDetailJobRef" id="modalDetailJob" size="lg" title="Detail of a job">
-      <JobDetail v-if="jobDetailId!=null" v-bind:job="jobs[jobDetailId]" @newJob="fetchJobs"/>
+      <JobDetail v-if="jobDetailId!=null" v-bind:job="jobs[jobDetailId]"/>
+    </b-modal>
+
+    <b-modal ref="modalDetailSplaydRef" id="modalDetailSplayd" size="lg" title="Detail of a Splayd">
+      <JobDetail v-if="splaydDetailId!=null" v-bind:job="splayds[splaydDetailId]"/>
     </b-modal>
   </div>
 </template>
@@ -34,34 +48,48 @@
 <script>
 import JobForm from "../partials/JobForm";
 import ListJobs from "../partials/ListJobs";
+import ListSplayd from "../partials/ListSplayd";
+
 import JobDetail from "../partials/JobDetail";
 
-import { listJobsAPI } from "@/services/api";
+import { listJobsAPI, listSplaydsAPI } from "@/services/api";
 
 export default {
-  name: "Jobs",
+  name: "Monitor",
   data() {
     return {
       alerts: {
         success: null
       },
       jobs: [],
-      jobDetailId: null
+      splayds: [],
+      jobDetailId: null,
+      splaydDetailId: null
     };
   },
   methods: {
-    detail(index) {
+    detailJob(index) {
       this.jobDetailId = index;
       this.$refs.modalDetailJobRef.show();
+    },
+    detailSplayd(index){
+      this.splaydDetailId = index;
+      this.$refs.modalDetailSplaydRef.show();
     },
     fetchJobs() {
       listJobsAPI(this.auth.token).then(res => {
         this.jobs = res.data.jobs;
       });
+    },
+    fetchSplayds() {
+      listSplaydsAPI(this.auth.token).then(res => {
+        this.splayds = res.data.splayds;
+      });
     }
   },
   mounted() {
     this.fetchJobs();
+    this.fetchSplayds();
   },
   props: {
     auth: Object
@@ -69,7 +97,8 @@ export default {
   components: {
     JobForm,
     ListJobs,
-    JobDetail
+    JobDetail,
+    ListSplayd
   }
 };
 </script>

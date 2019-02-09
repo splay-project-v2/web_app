@@ -67,11 +67,19 @@ function removeJobAPI(token, idJob){
     return axios.delete(URL_API_V1 + `/jobs/${idJob}`, config)
 }
 
+function listSplaydsAPI(token) {
+    var config = {
+        headers: {'Authorization': "bearer " + token}
+    };
+    return axios.get(URL_API_V1 + "/splayds", config)
+}
+
 export {
     loginAPI,
     registerAPI,
     createJobAPI,
     listJobsAPI,
     getJobAPI,
-    removeJobAPI
+    removeJobAPI,
+    listSplaydsAPI
 }
