@@ -70,7 +70,9 @@
         <b-form-invalid-feedback id="codeFeedback">{{ errors.first('Job Code') }}</b-form-invalid-feedback>
       </b-form-group>
       <!-- SUBMIT BUTTON -->
-      <b-button variant="primary" type="submit" :disabled="disableSubmit()">Submit this new Job</b-button>
+      <div class="text-center">
+        <b-button variant="primary" type="submit" :disabled="disableSubmit()">Submit this new Job</b-button>
+      </div>
     </b-form>
   </div>
 </template>

@@ -3,8 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/pages/Home'
 import Login from '@/components/pages/Login'
 import Register from '@/components/pages/Register'
-import Jobs from '@/components/pages/Jobs'
-import JobDetail from '@/components/pages/JobDetail'
+import Monitor from '@/components/pages/Monitor'
 
 Vue.use(Router)
 
@@ -29,14 +28,9 @@ export default new Router({
             component: Register
         }, // Only when authentificated
         {
-            path: '/jobs',
-            name: "jobs",
-            component: Jobs
-        },
-        {
-            path: '/jobs/:id',
-            name: "jobDetails",
-            component: JobDetail
+            path: '/monitor',
+            name: "monitor",
+            component: Monitor
         }
     ]
 })
