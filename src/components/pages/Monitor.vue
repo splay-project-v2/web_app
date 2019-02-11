@@ -9,9 +9,13 @@
     >
       <span v-html="alerts.success"></span>
     </b-alert>
+    <b-alert variant="danger" dismissible fade :show="alerts.error != null" @dismissed="alerts.error=null">
+      <span v-html="alerts.error"></span>
+    </b-alert>
 
     <h1 class="text-center">List of your Jobs</h1>
     <hr class="my-4">
+
     <ListJobs
       v-bind:auth="auth"
       v-bind:jobs="jobs"
@@ -20,16 +24,17 @@
     />
 
     <div class="text-center">
-      <b-btn v-b-modal.modalCreateJob variant="primary">Create new job</b-btn>
+      <b-button @click="fetchJobs" :disabled="currentRefresh.jobs" variant="primary mr-1">Refresh &#x21bb;</b-button>
+      <b-button v-b-modal.modalCreateJob variant="success">Create new job ✚</b-button>
     </div>
 
     <h1 class="text-center mt-5">List Splay Daemons</h1>
     <hr class="my-4">
-    <ListSplayd
-      v-bind:auth="auth"
-      v-bind:splayds="splayds"
-      @showSplaydDetails="detailSplayd"
-    />
+    <ListSplayd v-bind:auth="auth" v-bind:splayds="splayds" @showSplaydDetails="detailSplayd"/>
+    
+    <div class="text-center">
+      <b-button @click="fetchSplayds" :disabled="currentRefresh.splayds" variant="primary mr-1">Refresh &#x21bb;</b-button>
+    </div>
 
     <b-modal ref="modalCreateJobRef" id="modalCreateJob" size="lg" hide-footer title="Create a Job">
       <JobForm v-bind:auth="auth" @newJob="fetchJobs(); $refs.modalCreateJobRef.hide();"/>
@@ -59,12 +64,17 @@ export default {
   data() {
     return {
       alerts: {
-        success: null
+        success: null,
+        error: null
       },
       jobs: [],
       splayds: [],
       jobDetailId: null,
-      splaydDetailId: null
+      splaydDetailId: null,
+      currentRefresh: {
+        jobs:false,
+        splayds:false
+      }
     };
   },
   methods: {
@@ -72,19 +82,48 @@ export default {
       this.jobDetailId = index;
       this.$refs.modalDetailJobRef.show();
     },
-    detailSplayd(index){
+    detailSplayd(index) {
       this.splaydDetailId = index;
       this.$refs.modalDetailSplaydRef.show();
     },
     fetchJobs() {
-      listJobsAPI(this.auth.token).then(res => {
-        this.jobs = res.data.jobs;
-      });
+      this.currentRefresh.jobs = true
+      listJobsAPI(this.auth.token)
+        .then(res => {
+          this.jobs = res.data.jobs;
+        })
+        .catch(error => {
+          // eslint-disable-next-line
+          console.error(error);
+          if (error.response) {
+            this.alerts.error =
+              "Server response : " + error.response.data.errors;
+          } else {
+            this.alerts.error = "Error : " + error.message;
+          }
+        }).finally(() => {
+          setTimeout(() => {this.currentRefresh.jobs = false}, 1000) 
+        });
     },
     fetchSplayds() {
-      listSplaydsAPI(this.auth.token).then(res => {
-        this.splayds = res.data.splayds;
-      });
+      this.currentRefresh.splayds = true
+      listSplaydsAPI(this.auth.token)
+        .then(res => {
+          this.splayds = res.data.splayds;
+        })
+        .catch(error => {
+          // eslint-disable-next-line
+          console.error(error);
+          if (error.response) {
+            this.alerts.error =
+              "Server response : " + error.response.data.errors;
+          } else {
+            this.alerts.error = "Error : " + error.message;
+          }
+        }).finally(()=> {
+          setTimeout(() => {this.currentRefresh.splayds = false}, 1000) 
+        });
+      
     }
   },
   mounted() {
