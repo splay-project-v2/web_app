@@ -6,25 +6,24 @@
       <span v-html="alerts.error"></span>
     </b-alert>
     <b-form @submit="submitLogin">
-
-      <b-form-group label="Your Username : "
-                    label-for="usernameLogin">
-        <b-form-input id="usernameLogin"
-                      type="text"
-                      v-model="input.username"
-                      required
-                      placeholder="Username">
-        </b-form-input>
+      <b-form-group label="Your Username : " label-for="usernameLogin">
+        <b-form-input
+          id="usernameLogin"
+          type="text"
+          v-model="input.username"
+          required
+          placeholder="Username"
+        ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Your Password : "
-                    label-for="passwordLogin">
-        <b-form-input id="passwordLogin"
-                      type="password"
-                      v-model="input.password"
-                      required
-                      placeholder="Password">
-        </b-form-input>
+      <b-form-group label="Your Password : " label-for="passwordLogin">
+        <b-form-input
+          id="passwordLogin"
+          type="password"
+          v-model="input.password"
+          required
+          placeholder="Password"
+        ></b-form-input>
       </b-form-group>
       <b-button type="submit" variant="primary">Login</b-button>
     </b-form>
@@ -58,13 +57,7 @@ export default {
             this.$router.replace("home");
           })
           .catch(error => {
-            // eslint-disable-next-line
-            console.error(error);
-            if (error.response) {
-              this.alerts.error = "Server response : " + error.response.data.errors;
-            } else {
-              this.alerts.error = "Error : " + error.message;
-            }
+            this.alerts.error = error.msg;
           });
       }
     },

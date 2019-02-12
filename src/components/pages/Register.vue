@@ -116,14 +116,7 @@ export default {
           this.$router.replace("home");
         })
         .catch(error => {
-          // eslint-disable-next-line
-          console.error(error);
-          if (error.response) {
-            this.alerts.error =
-              "Server response : " + error.response.data.errors;
-          } else {
-            this.alerts.error = "Error : " + error.message;
-          }
+          this.alerts.error = error.msg;
         });
     }
   }

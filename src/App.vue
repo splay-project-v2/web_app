@@ -78,4 +78,8 @@ export default {
 </script>
 
 <style>
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
 </style>

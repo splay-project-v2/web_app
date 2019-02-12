@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <b-alert variant="danger" dismissible fade :show="alerts.error != null" @dismissed="alerts.error=null">
+      <span v-html="alerts.error"></span>
+    </b-alert>
+
     <b-table striped hover :items="jobs" :fields="fields">
       <template slot="actions" slot-scope="row">
         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
@@ -18,6 +22,7 @@ export default {
   name: "ListJobs",
   data() {
     return {
+      alerts: {error: null},
       fields: ["status", "id", "created_at", "nb_splayds", "name", "actions"]
     };
   },
@@ -31,6 +36,8 @@ export default {
     removeJob(item) {
       removeJobAPI(this.auth.token, item.id).then(() => {
         this.$emit("refreshJobs");
+      }).catch(error => {
+        this.alerts.error = error.msg;
       });
     }
   },

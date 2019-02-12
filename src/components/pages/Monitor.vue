@@ -93,14 +93,7 @@ export default {
           this.jobs = res.data.jobs;
         })
         .catch(error => {
-          // eslint-disable-next-line
-          console.error(error);
-          if (error.response) {
-            this.alerts.error =
-              "Server response : " + error.response.data.errors;
-          } else {
-            this.alerts.error = "Error : " + error.message;
-          }
+          this.alerts.error = error.msg;
         }).finally(() => {
           setTimeout(() => {this.currentRefresh.jobs = false}, 1000) 
         });
@@ -112,14 +105,7 @@ export default {
           this.splayds = res.data.splayds;
         })
         .catch(error => {
-          // eslint-disable-next-line
-          console.error(error);
-          if (error.response) {
-            this.alerts.error =
-              "Server response : " + error.response.data.errors;
-          } else {
-            this.alerts.error = "Error : " + error.message;
-          }
+          this.alerts.error = error.msg;
         }).finally(()=> {
           setTimeout(() => {this.currentRefresh.splayds = false}, 1000) 
         });

@@ -3,15 +3,6 @@
     <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
       <span v-html="alerts.error"></span>
     </b-alert>
-    <b-alert
-      variant="success"
-      dismissible
-      fade
-      :show="alerts.success != null"
-      @dismissed="alerts.success=null"
-    >
-      <span v-html="alerts.success"></span>
-    </b-alert>
     <!-- NAME FIELD -->
     <b-form @submit="submitJob">
       <b-form-group label="Name :" label-for="nameJobForm">
@@ -55,7 +46,7 @@
         <b-form-invalid-feedback id="nbSplaydFeedback">{{ errors.first('Number of Splayd') }}</b-form-invalid-feedback>
       </b-form-group>
       <!-- CODE FIELD -->
-      <b-form-group label="Code :" label-for="codeJobForm">
+      <b-form-group label="Code :" label-for="codeJobForm" class="required"  label-class="control-label">
         <b-form-textarea
           id="codeJobForm"
           type="text"
@@ -85,7 +76,6 @@ export default {
   data() {
     return {
       alerts: {
-        success: null,
         error: null
       },
       form: {
@@ -128,16 +118,8 @@ export default {
         .then(res => {
           this.alerts.success = "New job created : " + res;
           this.$emit("newJob");
-        })
-        .catch(error => {
-          // eslint-disable-next-line
-          console.error(error);
-          if (error.response) {
-            this.alerts.error =
-              "Server response : " + error.response.data.errors;
-          } else {
-            this.alerts.error = "Error : " + error.message;
-          }
+        }).catch(error => {
+          this.alerts.error = error.msg;
         });
     }
   },
