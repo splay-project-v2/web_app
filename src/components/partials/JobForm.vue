@@ -13,7 +13,7 @@
           aria-describedby="nameFeedback"
           placeholder="Name"
           name="Job Name"
-          v-validate="{required:false, max:20, alpha_num:true}"
+          v-validate="{required:false, max:20}"
           :state="validateState('Job Name')"
         ></b-form-input>
         <b-form-invalid-feedback id="nameFeedback">{{ errors.first("Job Name") }}</b-form-invalid-feedback>
@@ -46,7 +46,7 @@
         <b-form-invalid-feedback id="nbSplaydFeedback">{{ errors.first('Number of Splayd') }}</b-form-invalid-feedback>
       </b-form-group>
       <!-- CODE FIELD -->
-      <b-form-group label="Code :" label-for="codeJobForm" class="required"  label-class="control-label">
+      <b-form-group label="Code (Lua 5.3)" label-for="codeJobForm" label-class="control-label">
         <b-form-textarea
           id="codeJobForm"
           type="text"
@@ -57,7 +57,8 @@
           v-validate="{required:true}"
           :state="validateState('Job Code')"
           :rows="5"
-        ></b-form-textarea>
+        >
+        </b-form-textarea>
         <b-form-invalid-feedback id="codeFeedback">{{ errors.first('Job Code') }}</b-form-invalid-feedback>
       </b-form-group>
       <!-- SUBMIT BUTTON -->
@@ -71,6 +72,21 @@
 <script>
 import { createJobAPI } from "@/services/api";
 
+const codeDefault = `--[[
+
+Small script to test splay, just log the different neighbours during 1 minutes
+
+--]]
+
+require("splay.base")
+print("Discovering Job - launch during 1 minute - v1")
+
+neighbours = job.nodes
+print("I am link to :")
+for _, n in pairs(neighbours) do print(" - "..n.ip..":"..n.port) end
+
+print("Exit Discovering Job")`;
+
 export default {
   name: "JobForm",
   data() {
@@ -80,7 +96,7 @@ export default {
       },
       form: {
         name: null,
-        code: null,
+        code: codeDefault,
         description: null,
         nb_splayds: 5
       }
@@ -118,7 +134,8 @@ export default {
         .then(res => {
           this.alerts.success = "New job created : " + res;
           this.$emit("newJob");
-        }).catch(error => {
+        })
+        .catch(error => {
           this.alerts.error = error.msg;
         });
     }

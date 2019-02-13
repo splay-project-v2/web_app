@@ -95,7 +95,7 @@ export default {
         .catch(error => {
           this.alerts.error = error.msg;
         }).finally(() => {
-          setTimeout(() => {this.currentRefresh.jobs = false}, 1000) 
+          setTimeout(() => {this.currentRefresh.jobs = false}, 100) 
         });
     },
     fetchSplayds() {
@@ -107,7 +107,7 @@ export default {
         .catch(error => {
           this.alerts.error = error.msg;
         }).finally(()=> {
-          setTimeout(() => {this.currentRefresh.splayds = false}, 1000) 
+          setTimeout(() => {this.currentRefresh.splayds = false}, 100) 
         });
       
     }
