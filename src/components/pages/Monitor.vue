@@ -86,6 +86,13 @@ export default {
       this.splaydDetailId = index;
       this.$refs.modalDetailSplaydRef.show();
     },
+    autoRefresh(){
+      setTimeout(() => {
+        this.fetchJobs()
+        this.fetchSplayds()
+        this.autoRefresh()
+      }, 5000)
+    },
     fetchJobs() {
       this.currentRefresh.jobs = true
       listJobsAPI(this.auth.token)
@@ -115,6 +122,7 @@ export default {
   mounted() {
     this.fetchJobs();
     this.fetchSplayds();
+    this.autoRefresh();
   },
   props: {
     auth: Object

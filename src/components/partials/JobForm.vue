@@ -3,8 +3,8 @@
     <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
       <span v-html="alerts.error"></span>
     </b-alert>
-    <!-- NAME FIELD -->
     <b-form @submit="submitJob">
+      <!-- NAME FIELD -->
       <b-form-group label="Name :" label-for="nameJobForm">
         <b-form-input
           id="nameJobForm"
@@ -17,6 +17,15 @@
           :state="validateState('Job Name')"
         ></b-form-input>
         <b-form-invalid-feedback id="nameFeedback">{{ errors.first("Job Name") }}</b-form-invalid-feedback>
+      </b-form-group>
+      <!-- Scheduler FIELD -->
+      <b-form-group label="Scheduler :" label-for="schedulerJobForm">
+        <b-form-select
+          id="schedulerJobForm"
+          :options="options.scheduler"
+          v-model="form.scheduler"
+          placeholder="Scheduler"
+        ></b-form-select>
       </b-form-group>
       <!-- DESCRIPTION FIELD -->
       <b-form-group label="Descripion :" label-for="descriptionJobForm">
@@ -57,9 +66,23 @@
           v-validate="{required:true}"
           :state="validateState('Job Code')"
           :rows="5"
-        >
-        </b-form-textarea>
+        ></b-form-textarea>
         <b-form-invalid-feedback id="codeFeedback">{{ errors.first('Job Code') }}</b-form-invalid-feedback>
+      </b-form-group>
+      <!-- TOPOLOGY FIELD -->
+      <b-form-group label="Topology (XML)" label-for="topologyJobForm" label-class="control-label">
+        <b-form-textarea
+          id="topologyJobForm"
+          type="text"
+          v-model="form.topology"
+          placeholder="Topo XML"
+          aria-describedby="topologyFeedback"
+          name="Topology"
+          v-validate="{required:false}"
+          :state="validateState('Topology')"
+          :rows="5"
+        ></b-form-textarea>
+        <b-form-invalid-feedback id="topologyFeedback">{{ errors.first('Topology') }}</b-form-invalid-feedback>
       </b-form-group>
       <!-- SUBMIT BUTTON -->
       <div class="text-center">
@@ -94,11 +117,20 @@ export default {
       alerts: {
         error: null
       },
+      options: {
+        scheduler: [
+          { value: 'standard', text: 'Standard Job' },
+          { value: 'trace', text: 'Trace Job' },
+          { value: 'tracealt', text: 'Trace Alt Job' },
+        ]
+      },
       form: {
         name: null,
         code: codeDefault,
         description: null,
-        nb_splayds: 5
+        nb_splayds: 5,
+        topology: null,
+        scheduler: 'standard'
       }
     };
   },
@@ -124,13 +156,7 @@ export default {
       this.alerts.error = null;
       this.alerts.success = null;
 
-      createJobAPI(
-        this.auth.token,
-        this.form.name,
-        this.form.description,
-        this.form.nb_splayds,
-        this.form.code
-      )
+      createJobAPI(this.auth.token, this.form)
         .then(res => {
           this.alerts.success = "New job created : " + res;
           this.$emit("newJob");

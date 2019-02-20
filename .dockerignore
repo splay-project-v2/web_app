@@ -7,5 +7,4 @@ docker-compose*
 .git
 .gitignore
 README.md
-LICENSE
 .vscode

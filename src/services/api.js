@@ -50,7 +50,7 @@ function registerAPI(user, email, password, passwordConfirmation) {
     })
 }
 
-function createJobAPI(token, name, description, nbSplayd, code) {
+function createJobAPI(token, dataForm) {
     var config = {
         headers: {
             'Authorization': "bearer " + token
@@ -59,12 +59,7 @@ function createJobAPI(token, name, description, nbSplayd, code) {
     return axios.post(URL_API_V1 + "/jobs", {
         data: {
             type: 'user',
-            attributes: {
-                code: code,
-                name: name,
-                description: description,
-                nb_splayds: nbSplayd
-            }
+            attributes: dataForm
         }
     }, config).catch((error) => {
         handlingErrorAPI(error)
