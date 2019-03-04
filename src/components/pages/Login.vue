@@ -1,39 +1,37 @@
 <template>
   <div class="container">
     <h1 class="text-center">Login</h1>
+    <hr class="my-4">
     <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
       <span v-html="alerts.error"></span>
     </b-alert>
-    <form>
-      <div class="form-group">
-        <label for="usernameLogin">Username</label>
-        <input
-          v-model="input.username"
+    <b-form @submit="submitLogin">
+      <b-form-group label="Your Username : " label-for="usernameLogin">
+        <b-form-input
           id="usernameLogin"
-          class="form-control"
           type="text"
-          name="username"
+          v-model="input.username"
+          required
           placeholder="Username"
-        >
-      </div>
-      <div class="form-group">
-        <label for="passwordLogin">Password</label>
-        <input
-          v-model="input.password"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Your Password : " label-for="passwordLogin">
+        <b-form-input
           id="passwordLogin"
-          class="form-control"
           type="password"
-          name="password"
+          v-model="input.password"
+          required
           placeholder="Password"
-        >
-      </div>
-      <button type="button" class="btn btn-primary" v-on:click="login()">Login</button>
-    </form>
+        ></b-form-input>
+      </b-form-group>
+      <b-button type="submit" variant="primary">Login</b-button>
+    </b-form>
   </div>
 </template>
 
 <script>
-import { loginAPI } from "./services/api";
+import { loginAPI } from "@/services/api";
 
 export default {
   name: "Login",
@@ -49,7 +47,8 @@ export default {
     };
   },
   methods: {
-    login() {
+    submitLogin(evt) {
+      evt.preventDefault();
       if (this.checkInputs()) {
         const username = this.input.username;
         loginAPI(username, this.input.password)
@@ -58,13 +57,7 @@ export default {
             this.$router.replace("home");
           })
           .catch(error => {
-            // eslint-disable-next-line
-            console.error(error);
-            if (error.response) {
-              this.alerts.error = "Server response : " + error.response.data.errors;
-            } else {
-              this.alerts.error = "Error : " + error.message;
-            }
+            this.alerts.error = error.msg;
           });
       }
     },

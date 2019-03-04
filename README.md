@@ -1,29 +1,25 @@
-# splay
+# Splay Web App (V2)
+
+Splay is a bigger project, you can check the main repository (here)[https://github.com/splay-project-v2], and this repository contents the Web Single Page App allowing to monitor easily splay data by anyone. It is a simple (Vue)[https://vuejs.org/] project that uses the backend service (JsonAPI) to obtain data of monitoring.
+
+This app replaces (with the backend) the rails web app from splay (version1)[https://github.com/splay-project/splay]
 
 ## Project setup
-```
-npm install
-```
+You can use the docker configurations or install manually (npm) in our machine.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Production setup
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Use the Dockerfile (same directory) or/and use with docker-compose in the main repository
+(`docker-compose up web_app`). This App is useless without the backend and the rest of component monitored.
 
-### Run your tests
+### Development setup
+In our own machine : `npm install` to install modules and `npm run server` (hot-reloads) to launch the server in development mode.
+
+### Tests setup
 ```
 npm run test
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### License
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+General Public License : check license file for more info

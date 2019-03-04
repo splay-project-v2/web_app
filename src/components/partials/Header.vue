@@ -30,10 +30,10 @@
         <router-link
           v-if="auth.isAuth"
           tag="button"
-          to="/jobs"
+          to="/monitor"
           class="btn btn-primary mr-2"
           type="button"
-        >Your Jobs</router-link>
+        >Monitor Splay</router-link>
 
         <router-link
           v-if="!auth.isAuth"

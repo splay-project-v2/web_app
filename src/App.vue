@@ -27,8 +27,8 @@ import "bootstrap";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Header from "./components/Header.vue";
-import Footer from "./components/Footer.vue";
+import Header from "./components/partials/Header.vue";
+import Footer from "./components/partials/Footer.vue";
 
 export default {
   name: "app",
@@ -38,9 +38,10 @@ export default {
         success: null
       },
       auth: {
-        isAuth: false,
-        username: null,
-        token: null
+        isAuth: localStorage.username != null && localStorage.token != null,
+        username: localStorage.username,
+        token: localStorage.token,
+        checked: false
       }
     };
   },
@@ -49,21 +50,36 @@ export default {
       this.auth.isAuth = true;
       this.auth.username = user;
       this.auth.token = token;
+
+      localStorage.username = user
+      localStorage.token = token
+
       this.alerts.success = `Welcome into SplayV2 <b>${user}</b>!`;
     },
     logout() {
       this.auth.isAuth = false;
       this.auth.username = null;
       this.auth.token = null;
+
+      localStorage.removeItem("username")
+      localStorage.removeItem("token")
+
       this.alerts.success = `<b>Logout</b> success!`;
     }
   },
   components: {
     Header,
     Footer
+  },
+  mounted() {
+    
   }
 };
 </script>
 
 <style>
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
 </style>
