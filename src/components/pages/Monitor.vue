@@ -13,7 +13,16 @@
       <span v-html="alerts.error"></span>
     </b-alert>
 
-    <h1 class="text-center">List of your Jobs</h1>
+    <h1 class="text-center mt-5">List Splay Daemons</h1>
+    <hr class="my-4">
+    <ListSplayd v-bind:auth="auth" v-bind:splayds="splayds" @showSplaydDetails="detailSplayd"/>
+    
+    <div class="text-center">
+      <b-button @click="fetchSplayds" :disabled="currentRefresh.splayds" variant="primary mr-1">Refresh &#x21bb;</b-button>
+    </div>
+
+
+    <h1 class="text-center mt-3">List of your Jobs</h1>
     <hr class="my-4">
 
     <ListJobs
@@ -25,20 +34,14 @@
 
     <div class="text-center">
       <b-button @click="fetchJobs" :disabled="currentRefresh.jobs" variant="primary mr-1">Refresh &#x21bb;</b-button>
-      <b-button v-b-modal.modalCreateJob variant="success">Create new job ✚</b-button>
+      <b-button v-b-toggle.collapseCreateJob variant="success">Create new job ✚</b-button>
     </div>
 
-    <h1 class="text-center mt-5">List Splay Daemons</h1>
-    <hr class="my-4">
-    <ListSplayd v-bind:auth="auth" v-bind:splayds="splayds" @showSplaydDetails="detailSplayd"/>
-    
-    <div class="text-center">
-      <b-button @click="fetchSplayds" :disabled="currentRefresh.splayds" variant="primary mr-1">Refresh &#x21bb;</b-button>
-    </div>
-
-    <b-modal ref="modalCreateJobRef" id="modalCreateJob" size="lg" hide-footer title="Create a Job">
-      <JobForm v-bind:auth="auth" @newJob="fetchJobs(); $refs.modalCreateJobRef.hide();"/>
-    </b-modal>
+    <b-collapse id="collapseCreateJob" class="mt-5">
+      <b-card title="Create a new job">
+        <JobForm v-bind:auth="auth" @newJob="fetchJobs();"/>
+      </b-card>
+    </b-collapse>
 
     <b-modal ref="modalDetailJobRef" id="modalDetailJob" size="lg" title="Detail of a job">
       <JobDetail v-if="jobDetailId!=null" v-bind:job="jobs[jobDetailId]"/>

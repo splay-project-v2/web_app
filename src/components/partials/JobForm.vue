@@ -55,9 +55,11 @@
         <b-form-invalid-feedback id="nbSplaydFeedback">{{ errors.first('Number of Splayd') }}</b-form-invalid-feedback>
       </b-form-group>
       <!-- CODE FIELD -->
-      <b-form-group label="Code (Lua 5.3)" label-for="codeJobForm" label-class="control-label">
+      <b-form-group label="Code (Lua 5.3)" label-for="aceEditor" label-class="control-label">
+        <div id="aceEditor"></div>
         <b-form-textarea
           id="codeJobForm"
+          class="sr-only"
           type="text"
           v-model="form.code"
           placeholder="Code"
@@ -95,6 +97,10 @@
 <script>
 import { createJobAPI } from "@/services/api";
 
+var ace = require("brace");
+require("brace/mode/lua");
+require("brace/theme/monokai");
+
 const codeDefault = `--[[
 
 Small script to test splay, just log the different neighbours during 1 minutes
@@ -119,9 +125,9 @@ export default {
       },
       options: {
         scheduler: [
-          { value: 'standard', text: 'Standard Job' },
-          { value: 'trace', text: 'Trace Job' },
-          { value: 'tracealt', text: 'Trace Alt Job' },
+          { value: "standard", text: "Standard Job" },
+          { value: "trace", text: "Trace Job" },
+          { value: "tracealt", text: "Trace Alt Job" }
         ]
       },
       form: {
@@ -130,11 +136,21 @@ export default {
         description: null,
         nb_splayds: 5,
         topology: null,
-        scheduler: 'standard'
+        scheduler: "standard"
       }
     };
   },
-  mounted() {},
+  mounted() {
+    var me = this;
+    var editor = ace.edit("aceEditor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/lua");
+    editor.getSession().setValue(codeDefault);
+    editor.getSession().on("change", function() {
+      var code = editor.getSession().getValue();
+      me.form.code = code;
+    });
+  },
   methods: {
     disableSubmit() {
       return (
@@ -175,4 +191,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+#aceEditor {
+  height: 250px;
+}
 </style>
