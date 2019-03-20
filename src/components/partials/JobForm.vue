@@ -1,34 +1,50 @@
 <template>
   <div class="container">
-    <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
-      <span v-html="alerts.error"></span>
-    </b-alert>
     <b-form @submit="submitJob">
       <!-- NAME FIELD -->
-      <b-form-group label="Name :" label-for="nameJobForm">
+      <div class="form-row">
+        <div class="col">
+          <b-form-group label="Name :" label-for="nameJobForm" label-cols-md="4">
+            <b-form-input
+              id="nameJobForm"
+              type="text"
+              v-model="form.name"
+              aria-describedby="nameFeedback"
+              placeholder="Name"
+              name="Job Name"
+              v-validate="{required:false, max:20}"
+              :state="validateState('Job Name')"
+            ></b-form-input>
+            <b-form-invalid-feedback id="nameFeedback">{{ errors.first("Job Name") }}</b-form-invalid-feedback>
+          </b-form-group>
+        </div>
+        <!-- Scheduler FIELD -->
+        <div class="col">
+          <b-form-group label="Scheduler :" label-for="schedulerJobForm"  label-cols-md="4">
+            <b-form-select
+              id="schedulerJobForm"
+              :options="options.scheduler"
+              v-model="form.scheduler"
+              placeholder="Scheduler"
+            ></b-form-select>
+          </b-form-group>
+        </div>
+      </div>
+      <!-- NUMBER SPLAYD FIELD -->
+      <b-form-group label="Number of Splay deamon :" label-for="nbSplaydJobForm"  label-cols-md="4">
         <b-form-input
-          id="nameJobForm"
-          type="text"
-          v-model="form.name"
-          aria-describedby="nameFeedback"
-          placeholder="Name"
-          name="Job Name"
-          v-validate="{required:false, max:20}"
-          :state="validateState('Job Name')"
+          id="nbSplaydJobForm"
+          type="number"
+          v-model="form.nb_splayds"
+          aria-describedby="nbSplaydFeedback"
+          name="Number of Splayd"
+          v-validate="{numeric:true, min_value:1, max_value:250}"
+          :state="validateState('Number of Splayd')"
         ></b-form-input>
-        <b-form-invalid-feedback id="nameFeedback">{{ errors.first("Job Name") }}</b-form-invalid-feedback>
-      </b-form-group>
-      <!-- Scheduler FIELD -->
-      <b-form-group label="Scheduler :" label-for="schedulerJobForm">
-        <b-form-select
-          id="schedulerJobForm"
-          :options="options.scheduler"
-          v-model="form.scheduler"
-          placeholder="Scheduler"
-        ></b-form-select>
+        <b-form-invalid-feedback id="nbSplaydFeedback">{{ errors.first('Number of Splayd') }}</b-form-invalid-feedback>
       </b-form-group>
       <!-- DESCRIPTION FIELD -->
-      <b-form-group label="Descripion :" label-for="descriptionJobForm">
+      <b-form-group label="Descripion :" label-for="descriptionJobForm"  label-cols-md="4">
         <b-form-input
           id="descriptionJobForm"
           type="text"
@@ -41,36 +57,7 @@
         ></b-form-input>
         <b-form-invalid-feedback id="descriptionFeedback">{{ errors.first('Job Descrition') }}</b-form-invalid-feedback>
       </b-form-group>
-      <!-- NUMBER SPLAYD FIELD -->
-      <b-form-group label="Number of Splay deamon :" label-for="nbSplaydJobForm">
-        <b-form-input
-          id="nbSplaydJobForm"
-          type="number"
-          v-model="form.nb_splayds"
-          aria-describedby="nbSplaydFeedback"
-          name="Number of Splayd"
-          v-validate="{required:false}"
-          :state="validateState('Number of Splayd')"
-        ></b-form-input>
-        <b-form-invalid-feedback id="nbSplaydFeedback">{{ errors.first('Number of Splayd') }}</b-form-invalid-feedback>
-      </b-form-group>
-      <!-- CODE FIELD -->
-      <b-form-group label="Code (Lua 5.3)" label-for="aceEditor" label-class="control-label">
-        <div id="aceEditor"></div>
-        <b-form-textarea
-          id="codeJobForm"
-          class="sr-only"
-          type="text"
-          v-model="form.code"
-          placeholder="Code"
-          aria-describedby="codeFeedback"
-          name="Job Code"
-          v-validate="{required:true}"
-          :state="validateState('Job Code')"
-          :rows="5"
-        ></b-form-textarea>
-        <b-form-invalid-feedback id="codeFeedback">{{ errors.first('Job Code') }}</b-form-invalid-feedback>
-      </b-form-group>
+     
       <!-- TOPOLOGY FIELD -->
       <b-form-group label="Topology (XML)" label-for="topologyJobForm" label-class="control-label">
         <b-form-textarea
@@ -86,10 +73,32 @@
         ></b-form-textarea>
         <b-form-invalid-feedback id="topologyFeedback">{{ errors.first('Topology') }}</b-form-invalid-feedback>
       </b-form-group>
+      <!-- CODE FIELD -->
+      <b-form-group label="Code (Lua 5.3)" label-for="aceEditor" label-class="control-label">
+        <!-- ACE EDITOR -->
+        <div id="aceEditor"></div>
+        <b-form-textarea
+          id="codeJobForm"
+          class="sr-only"
+          type="text"
+          v-model="form.code"
+          aria-describedby="codeFeedback"
+          name="Job Code"
+          v-validate="{required:true}"
+          :state="validateState('Job Code')"
+        ></b-form-textarea>
+        <b-form-invalid-feedback id="codeFeedback">{{ errors.first('Job Code') }}</b-form-invalid-feedback>
+      </b-form-group>
       <!-- SUBMIT BUTTON -->
-      <div class="text-center">
+      <div class="text-center mb-2">
         <b-button variant="primary" type="submit" :disabled="disableSubmit()">Submit this new Job</b-button>
       </div>
+      <b-alert variant="danger" fade :show="alerts.error != null" @dismissed="alerts.error=null">
+        <span v-html="alerts.error"></span>
+      </b-alert>
+      <b-alert variant="success" fade :show="alerts.success != null" @dismissed="alerts.success=null">
+        <span v-html="alerts.success"></span>
+      </b-alert>
     </b-form>
   </div>
 </template>
@@ -120,8 +129,12 @@ export default {
   name: "JobForm",
   data() {
     return {
+      currentRefresh: {
+        submit: false
+      },
       alerts: {
-        error: null
+        error: null,
+        success: null
       },
       options: {
         scheduler: [
@@ -154,7 +167,7 @@ export default {
   methods: {
     disableSubmit() {
       return (
-        this.errors.any() ||
+        this.errors.any() ||  this.currentRefresh.submit ||
         Object.keys(this.veeFields).some(key => !this.veeFields[key].valid)
       );
     },
@@ -171,6 +184,7 @@ export default {
       evt.preventDefault();
       this.alerts.error = null;
       this.alerts.success = null;
+      this.currentRefresh.submit = true
 
       createJobAPI(this.auth.token, this.form)
         .then(res => {
@@ -179,6 +193,8 @@ export default {
         })
         .catch(error => {
           this.alerts.error = error.msg;
+        }).finally(()=> {
+          setTimeout(() => {this.currentRefresh.submit = false}, 500) 
         });
     }
   },
@@ -192,6 +208,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 #aceEditor {
-  height: 250px;
+  height: 400px;
 }
 </style>

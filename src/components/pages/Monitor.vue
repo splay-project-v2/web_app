@@ -13,7 +13,7 @@
       <span v-html="alerts.error"></span>
     </b-alert>
 
-    <h1 class="text-center mt-5">List Splay Daemons</h1>
+    <h1 class="text-center">List Splay Daemons</h1>
     <hr class="my-4">
     <ListSplayd v-bind:auth="auth" v-bind:splayds="splayds" @showSplaydDetails="detailSplayd"/>
     
