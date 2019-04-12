@@ -21,6 +21,7 @@
       v-bind:jobs="jobs"
       @refreshJobs="fetchJobs"
       @showJobDetails="detailJob"
+      @showJobLogs="jobLogs"
     />
 
     <div class="text-center">
@@ -31,7 +32,7 @@
     <h1 class="text-center mt-5">List Splay Daemons</h1>
     <hr class="my-4">
     <ListSplayd v-bind:auth="auth" v-bind:splayds="splayds" @showSplaydDetails="detailSplayd"/>
-    
+
     <div class="text-center">
       <b-button @click="fetchSplayds" :disabled="currentRefresh.splayds" variant="primary mr-1">Refresh &#x21bb;</b-button>
     </div>
@@ -46,6 +47,10 @@
 
     <b-modal ref="modalDetailSplaydRef" id="modalDetailSplayd" size="lg" title="Detail of a Splayd">
       <JobDetail v-if="splaydDetailId!=null" v-bind:job="splayds[splaydDetailId]"/>
+    </b-modal>
+
+    <b-modal ref="modalDetailJobLogsRef" id="modalDetailJobLogs" size="lg" title="Logs of a Job">
+      {{ dataLogs }}
     </b-modal>
   </div>
 </template>
@@ -74,7 +79,8 @@ export default {
       currentRefresh: {
         jobs:false,
         splayds:false
-      }
+      },
+      dataLogs: null
     };
   },
   methods: {
@@ -85,6 +91,10 @@ export default {
     detailSplayd(index) {
       this.splaydDetailId = index;
       this.$refs.modalDetailSplaydRef.show();
+    },
+    jobLogs(value) {
+      this.dataLogs = value;
+      this.$refs.modalDetailJobLogsRef.show();
     },
     autoRefresh(){
       setTimeout(() => {
@@ -102,7 +112,7 @@ export default {
         .catch(error => {
           this.alerts.error = error.msg;
         }).finally(() => {
-          setTimeout(() => {this.currentRefresh.jobs = false}, 100) 
+          setTimeout(() => {this.currentRefresh.jobs = false}, 100)
         });
     },
     fetchSplayds() {
@@ -114,9 +124,9 @@ export default {
         .catch(error => {
           this.alerts.error = error.msg;
         }).finally(()=> {
-          setTimeout(() => {this.currentRefresh.splayds = false}, 100) 
+          setTimeout(() => {this.currentRefresh.splayds = false}, 100)
         });
-      
+
     }
   },
   mounted() {

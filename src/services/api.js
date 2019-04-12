@@ -88,13 +88,22 @@ function getJobAPI(token, idJob) {
     })
 }
 
-function removeJobAPI(token, idJob) {
+function killJobAPI(token, idJob) {
     var config = {
         headers: {
             'Authorization': "bearer " + token
         }
     };
     return axios.delete(URL_API_V1 + `/jobs/${idJob}`, config).catch((error) => {handlingErrorAPI(error)})
+}
+
+function getLogsAPI(token, idJob) {
+  var config = {
+      headers: {
+          'Authorization': "bearer " + token
+      }
+  };
+  return axios.get(URL_API_V1 + `/logs/${idJob}`, config).catch((error) => {handlingErrorAPI(error)})
 }
 
 function listSplaydsAPI(token) {
@@ -112,6 +121,7 @@ export {
     createJobAPI,
     listJobsAPI,
     getJobAPI,
-    removeJobAPI,
-    listSplaydsAPI
+    killJobAPI,
+    listSplaydsAPI,
+    getLogsAPI
 }

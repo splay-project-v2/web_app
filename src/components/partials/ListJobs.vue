@@ -8,15 +8,15 @@
       <template slot="actions" slot-scope="row">
         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
         <b-button size="sm" @click.stop="detail(row.index)" class="mr-1">Details</b-button>
-        <b-button size="sm" variant="danger" @click.stop="kill(row.item)" class="mr-1">Kill</b-button>
-        <b-button size="sm" variant="danger" @click.stop="removeJob(row.item)">Remove</b-button>
+        <b-button size="sm" @click.stop="getLogs(row.item)" class="mr-1">Show Logs</b-button>
+        <b-button size="sm" variant="danger" @click.stop="killJob(row.item)" class="mr-1">Kill</b-button>
       </template>
     </b-table>
   </div>
 </template>
 
 <script>
-import { removeJobAPI } from "@/services/api";
+import { getLogsAPI, killJobAPI } from "@/services/api";
 
 export default {
   name: "ListJobs",
@@ -30,12 +30,16 @@ export default {
     detail(index) {
       this.$emit("showJobDetails", index);
     },
-    kill() {
-      this.$emit("refreshJobs");
-    },
-    removeJob(item) {
-      removeJobAPI(this.auth.token, item.id).then(() => {
+    killJob(item) {
+      killJobAPI(this.auth.token, item.id).then(() => {
         this.$emit("refreshJobs");
+      }).catch(error => {
+        this.alerts.error = error.msg;
+      });
+    },
+    getLogs(item) {
+      getLogsAPI(this.auth.token, item.id).then((response) => {
+        this.$emit("showJobLogs", response.data.logs)
       }).catch(error => {
         this.alerts.error = error.msg;
       });
