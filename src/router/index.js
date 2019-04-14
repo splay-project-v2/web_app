@@ -36,7 +36,7 @@ export default new Router({
         {
           path: '/poc',
           name: 'poc',
-          comonent: Poc
+          component: Poc
         }
     ]
 })
