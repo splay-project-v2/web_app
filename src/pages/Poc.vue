@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TopologyEditor from '@/components/partials/TopologyEditor.vue'
+import TopologyEditor from '@/components/TopologyEditor.vue'
 export default {
   components: {
     'app-topology-editor': TopologyEditor

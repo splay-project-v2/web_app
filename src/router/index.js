@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/pages/Home'
-import Login from '@/components/pages/Login'
-import Register from '@/components/pages/Register'
-import Monitor from '@/components/pages/Monitor'
-import Poc from '@/components/pages/Poc'
+import Home from '@/pages/Home'
+import Login from '@/pages/Login'
+import Register from '@/pages/Register'
+import Monitor from '@/pages/Monitor'
+import Poc from '@/pages/Poc'
 
 Vue.use(Router)
 

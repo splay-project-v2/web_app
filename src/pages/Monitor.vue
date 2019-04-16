@@ -16,7 +16,7 @@
     <h1 class="text-center">List Splay Daemons</h1>
     <hr class="my-4">
     <ListSplayd v-bind:auth="auth" v-bind:splayds="splayds" @showSplaydDetails="detailSplayd"/>
-    
+
     <div class="text-center">
       <b-button @click="fetchSplayds" :disabled="currentRefresh.splayds" variant="primary mr-1">Refresh &#x21bb;</b-button>
     </div>
@@ -59,11 +59,11 @@
 </template>
 
 <script>
-import JobForm from "../partials/JobForm";
-import ListJobs from "../partials/ListJobs";
-import ListSplayd from "../partials/ListSplayd";
+import JobForm from "@/components/JobForm";
+import ListJobs from "@/components/ListJobs";
+import ListSplayd from "@/components/ListSplayd";
 
-import JobDetail from "../partials/JobDetail";
+import JobDetail from "@/components/JobDetail";
 
 import { listJobsAPI, listSplaydsAPI } from "@/services/api";
 
