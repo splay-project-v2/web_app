@@ -1,118 +1,124 @@
 <template>
-  <div class="container">
-    <div class="topology-editor">
-      <h2>Topology Editor</h2>
-      <div class="topology-form">
+  <div class="topology-editor">
+    <h2>Topology Editor</h2>
+    <div class="topology-form">
 
-        <b-form @submit.prevent="addNode">
-          <div class="row">
-            <div class="form-group col-xs-4">
-              <b-form-input type="text" placeholder="Node name" v-model="nodename"/>
-            </div>
-            <div class="form-group col-xs-4">
-              <b-form-select v-model="nodeType">
-                <option disabled value=null>Node Type</option>
-                <option v-for="type in types">
-                  {{ type }}
-                </option>
-              </b-form-select>
-            </div>
-            <div class="form-group col-xs-4">
-              <b-button variant="primary" type="submit">Add node</b-button>
-            </div>
+      <b-form @submit.prevent="addNode">
+        <div class="row">
+          <div class="form-group col-xs-4">
+            <b-form-input type="text" placeholder="Node name" v-model="nodename"/>
           </div>
-        </b-form>
-
-        <b-form @submit.prevent="addLink">
-          <div class="row">
-            <div class="form-group col-xs-4">
-              <b-form-input type="text" placeholder="Link name" v-model="linkname"/>
-            </div>
-            <div class="form-group col-xs-4">
-              <b-form-select v-model="source">
-                <option disabled value=null>source</option>
-                <option v-for="node in nodes">
-                  {{ node.name }}
-                </option>
-              </b-form-select>
-            </div>
-            <div class="form-group col-xs-4">
-              <b-form-select v-model="target">
-                <option disabled value=null>target</option>
-                <option v-for="node in nodes">
-                  {{ node.name }}
-                </option>
-              </b-form-select>
-            </div>
-            <div class="form-group col-xs-4">
-              <b-form-input type="text" placeholder="Link Delay (ms)" v-model="linkdelay"/>
-            </div>
-            <div class="form-group col-xs-4">
-              <b-form-select v-model="linkSpec">
-                <option disabled value=null>Spec</option>
-                <option v-for="spec in specs">
-                  {{ spec.name }}
-                </option>
-              </b-form-select>
-            </div>
-            <div class="form-group col-xs-4">
-              <b-button variant="primary" type="submit">Add link</b-button>
-            </div>
+          <div class="form-group col-xs-4">
+            <b-form-select v-model="nodeType">
+              <option disabled value=null>Node Type</option>
+              <option v-for="type in types">
+                {{ type }}
+              </option>
+            </b-form-select>
           </div>
-        </b-form>
-
-        <b-form @submit.prevent="addSpec">
-          <div class="row">
-            <div class="form-group col-xs-6">
-              <b-form-input type="text" v-model="specname" placeholder="Name"/>
-            </div>
-            <div class="form-group col-xs-6">
-              <b-form-input type="text" v-model="plr" placeholder="Packet Loss rate"/>
-            </div>
-            <div class="form-group col-xs-6">
-              <b-form-input type="text" v-model="kbps" placeholder="Kbps"/>
-            </div>
-            <div class="form-group col-xs-6">
-              <b-form-input type="text" v-model="delay" placeholder="Delays(ms)"/>
-            </div>
-            <div class="form-group col-xs-6">
-              <b-form-input type="text" v-model="qlen" placeholder="Qlen"/>
-            </div>
-            <div class="form-group col-xs-6">
-              <b-button variant="primary" type="submit">Add Spec</b-button>
-            </div>
+          <div class="form-group col-xs-4">
+            <b-button variant="primary" type="submit">Add node</b-button>
           </div>
-        </b-form>
+        </div>
+      </b-form>
+
+      <b-form @submit.prevent="addLink">
+        <div class="row">
+          <div class="form-group col-xs-4">
+            <b-form-select v-model="source">
+              <option disabled value=null>source</option>
+              <option v-for="node in nodes">
+                {{ node.name }}
+              </option>
+            </b-form-select>
+          </div>
+          <div class="form-group col-xs-4">
+            <b-form-select v-model="target">
+              <option disabled value=null>target</option>
+              <option v-for="node in nodes">
+                {{ node.name }}
+              </option>
+            </b-form-select>
+          </div>
+          <div class="form-group col-xs-4">
+            <b-form-input type="text" placeholder="Link Delay (ms)" v-model="linkdelay"/>
+          </div>
+          <div class="form-group col-xs-4">
+            <b-form-select v-model="linkSpec">
+              <option disabled value=null>Spec</option>
+              <option v-for="spec in specs">
+                {{ spec.name }}
+              </option>
+            </b-form-select>
+          </div>
+          <div class="form-group col-xs-4">
+            <b-button variant="primary" type="submit">Add link</b-button>
+          </div>
+        </div>
+      </b-form>
+
+      <b-form @submit.prevent="addSpec">
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <b-form-input type="text" v-model="specname" placeholder="Name"/>
+          </div>
+          <div class="form-group col-xs-6">
+            <b-form-input type="text" v-model="plr" placeholder="Packet Loss rate"/>
+          </div>
+          <div class="form-group col-xs-6">
+            <b-form-input type="text" v-model="kbps" placeholder="Kbps"/>
+          </div>
+          <div class="form-group col-xs-6">
+            <b-form-input type="text" v-model="delay" placeholder="Delays(ms)"/>
+          </div>
+          <div class="form-group col-xs-6">
+            <b-form-input type="text" v-model="qlen" placeholder="Qlen"/>
+          </div>
+          <div class="form-group col-xs-6">
+            <b-button variant="primary" type="submit">Add Spec</b-button>
+          </div>
+        </div>
+      </b-form>
 
 
-
-      </div>
-
-      <div class="topology-recap">
-        Recap <br>
-        <h4>Nodes</h4><br>
-        {{ nodes }} <br><br>
-        <h4>Edges</h4><br>
-        {{ edges }} <br><br>
-        <h4>Specs</h4><br>
-        {{ specs }} <br><br>
-
-      </div>
-
-      <div class="topology-diagram">
-        <cytoscape :config="config"/>
-      </div>
-
-      <div class="xml-result">
-          <h1>XML</h1>
-          <button type="button" name="button" @click="generateXML()">Gen XML</button><br>
-          {{ xml }}
-      </div>
 
     </div>
+
+    <div class="topology-recap">
+      Recap <br>
+      <h4>Nodes</h4><br>
+      <div class="">
+        {{ nodes }}
+      </div>
+      <div class="">
+        <b-button type="button" v-for="node in nodes" @click="removeNode(node.name)"name="button">{{ node.name }}</b-button>
+      </div>
+
+      <h4>Edges</h4><br>
+      <div class="">
+        <b-button type="button" v-for="edge in edges" @click="removeEdge(edge.id)"name="button">{{ edge.id }}</b-button>
+      </div>
+      <div class="">
+        {{ edges }}
+      </div>
+
+
+      <h4>Specs</h4><br>
+      {{ specs }} <br><br>
+
+    </div>
+
+    <div class="topology-diagram">
+      <cytoscape :config="config"/>
+    </div>
+
+    <div class="xml-result">
+        <h1>XML</h1>
+        <button type="button" name="button" @click="generateXML()">Gen XML</button><br>
+        {{ xml }}
+    </div>
+
   </div>
-
-
 </template>
 
 <script>
@@ -181,6 +187,25 @@ export default {
     }
   },
   methods: {
+    removeNode (nodename) {
+      this.$cytoscape.instance.then(cy => {
+        cy.remove(`#${nodename}`)
+        this.nodes = this.nodes.filter((item) => {
+          return item.name != nodename
+        })
+        this.edges = this.edges.filter((item) => {
+          return item.source != nodename && item.target != nodename
+        })
+      })
+    },
+    removeEdge (edgeId) {
+      this.$cytoscape.instance.then(cy => {
+        cy.remove(`#${edgeId}`)
+        this.edges = this.edges.filter((item) => {
+          return item.id != edgeId
+        })
+      })
+    },
     addNode () {
       this.$cytoscape.instance.then(cy => {
         cy.add([ {data: {id: this.nodename}} ])
@@ -189,8 +214,8 @@ export default {
     },
     addLink () {
       this.$cytoscape.instance.then(cy => {
-        cy.add([ {data: {id: this.linkname, source: this.source, target: this.target}} ])
-        this.edges.push({id: this.linkname, source: this.source, target: this.target, delay: this.linkdelay, spec: this.linkSpec})
+        cy.add([ {data: {id: `link${this.source}${this.target}`, source: this.source, target: this.target}} ])
+        this.edges.push({id: `link${this.source}${this.target}`, source: this.source, target: this.target, delay: this.linkdelay, spec: this.linkSpec})
       })
     },
     addSpec () {
