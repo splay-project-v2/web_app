@@ -4,10 +4,7 @@
     <div class="topology-form">
 
       <app-topo-node-creator @addNode="addNode" :types="types" :nodes="nodes"/>
-
       <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes"/>
-
-
 
       <b-form @submit.prevent="addSpec">
         <div class="row">
@@ -31,9 +28,6 @@
           </div>
         </div>
       </b-form>
-
-
-
     </div>
 
     <div class="topology-recap">
@@ -53,7 +47,6 @@
       <div class="">
         {{ edges }}
       </div>
-
 
       <h4>Specs</h4><br>
       {{ specs }} <br><br>
@@ -102,15 +95,7 @@ export default {
       specs: [],
       types: ['virtnode', 'gateway'],
       config: {
-        elements: [
-        //   { // node a
-        //     data: { id: 'a' }
-        //   }, { // node b
-        //     data: { id: 'b' }
-        //   }, { // edge ab
-        //     data: { id: 'ab', source: 'a', target: 'b' }
-        //   }
-        ],
+        elements: [],
         style: [
           {
             selector: 'node',
