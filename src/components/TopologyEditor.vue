@@ -5,40 +5,9 @@
 
       <app-topo-node-creator @addNode="addNode" :types="types" :nodes="nodes"/>
 
-      <b-form @submit.prevent="addLink">
-        <div class="row">
-          <div class="form-group col-xs-4">
-            <b-form-select v-model="source">
-              <option disabled value=null>source</option>
-              <option v-for="node in nodes">
-                {{ node.name }}
-              </option>
-            </b-form-select>
-          </div>
-          <div class="form-group col-xs-4">
-            <b-form-select v-model="target">
-              <option disabled value=null>target</option>
-              <option v-for="node in nodes">
-                {{ node.name }}
-              </option>
-            </b-form-select>
-          </div>
-          <div class="form-group col-xs-4">
-            <b-form-input type="text" placeholder="Link Delay (ms)" v-model="linkdelay"/>
-          </div>
-          <div class="form-group col-xs-4">
-            <b-form-select v-model="linkSpec">
-              <option disabled value=null>Spec</option>
-              <option v-for="spec in specs">
-                {{ spec.name }}
-              </option>
-            </b-form-select>
-          </div>
-          <div class="form-group col-xs-4">
-            <b-button variant="primary" type="submit">Add link</b-button>
-          </div>
-        </div>
-      </b-form>
+      <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes"/>
+
+
 
       <b-form @submit.prevent="addSpec">
         <div class="row">
@@ -106,9 +75,11 @@
 
 <script>
 import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
+import TopoLinkCreator from '@/components/topo_editor/TopoLinkCreator'
 export default {
   components: {
-    'app-topo-node-creator': TopoNodeCreator
+    'app-topo-node-creator': TopoNodeCreator,
+    'app-topo-link-creator': TopoLinkCreator
   },
   data(){
     return {
@@ -195,10 +166,10 @@ export default {
         this.nodes.push({name: item.id, nodeType: item.type})
       })
     },
-    addLink () {
+    addLink (item) {
       this.$cytoscape.instance.then(cy => {
-        cy.add([ {data: {id: `link${this.source}${this.target}`, source: this.source, target: this.target}} ])
-        this.edges.push({id: `link${this.source}${this.target}`, source: this.source, target: this.target, delay: this.linkdelay, spec: this.linkSpec})
+        cy.add([ {data: {id: `link${item.source}${item.target}`, source: item.source, target: item.target}} ])
+        this.edges.push({id: `link${item.source}${item.target}`, source: item.source, target: item.target, delay: item.linkDelay, spec: item.linkSpec})
       })
     },
     addSpec () {
