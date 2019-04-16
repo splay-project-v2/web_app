@@ -3,24 +3,7 @@
     <h2>Topology Editor</h2>
     <div class="topology-form">
 
-      <b-form @submit.prevent="addNode">
-        <div class="row">
-          <div class="form-group col-xs-4">
-            <b-form-input type="text" placeholder="Node name" v-model="nodename"/>
-          </div>
-          <div class="form-group col-xs-4">
-            <b-form-select v-model="nodeType">
-              <option disabled value=null>Node Type</option>
-              <option v-for="type in types">
-                {{ type }}
-              </option>
-            </b-form-select>
-          </div>
-          <div class="form-group col-xs-4">
-            <b-button variant="primary" type="submit">Add node</b-button>
-          </div>
-        </div>
-      </b-form>
+      <app-topo-node-creator @addNode="addNode" :types="types" :nodes="nodes"/>
 
       <b-form @submit.prevent="addLink">
         <div class="row">
@@ -122,13 +105,13 @@
 </template>
 
 <script>
-
+import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
 export default {
+  components: {
+    'app-topo-node-creator': TopoNodeCreator
+  },
   data(){
     return {
-      nodename: null,
-      nodeType: null,
-
       source: null,
       target: null,
       linkname: null,
@@ -206,10 +189,10 @@ export default {
         })
       })
     },
-    addNode () {
+    addNode (item) {
       this.$cytoscape.instance.then(cy => {
-        cy.add([ {data: {id: this.nodename}} ])
-        this.nodes.push({name: this.nodename, nodeType: this.nodeType})
+        cy.add([ {data: {id: item.id}} ])
+        this.nodes.push({name: item.id, nodeType: item.type})
       })
     },
     addLink () {
