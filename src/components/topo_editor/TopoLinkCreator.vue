@@ -3,7 +3,7 @@
     <div class="row">
       <div class="form-group col-xs-4">
         <b-form-select v-model="source">
-          <option disabled value=null>source</option>
+          <option disabled value=null>Source</option>
           <option v-for="node in nodes">
             {{ node.name }}
           </option>
@@ -11,18 +11,18 @@
       </div>
       <div class="form-group col-xs-4">
         <b-form-select v-model="target">
-          <option disabled value=null>target</option>
+          <option disabled value=null>Destination</option>
           <option v-for="node in nodes">
             {{ node.name }}
           </option>
         </b-form-select>
       </div>
-      <div class="form-group col-xs-4">
-        <b-form-input type="text" placeholder="Link Delay (ms)" v-model="linkDelay"/>
+      <div class="form-group col-xs-6">
+        <b-form-input type="text" placeholder="Delay(ms) - Optional" v-model="linkDelay"/>
       </div>
       <div class="form-group col-xs-4">
         <b-form-select v-model="linkSpec">
-          <option disabled value=null>Spec</option>
+          <option disabled value=null>Spec (Optional)</option>
           <option v-for="spec in specs">
             {{ spec.name }}
           </option>

@@ -1,33 +1,11 @@
 <template>
   <div class="topology-editor">
     <h2>Topology Editor</h2>
+
     <div class="topology-form">
-
-      <app-topo-node-creator @addNode="addNode" :types="types" :nodes="nodes"/>
+      <app-topo-node-creator @addNode="addNode" :types="nodeTypes" :nodes="nodes"/>
       <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes"/>
-
-      <b-form @submit.prevent="addSpec">
-        <div class="row">
-          <div class="form-group col-xs-6">
-            <b-form-input type="text" v-model="specname" placeholder="Name"/>
-          </div>
-          <div class="form-group col-xs-6">
-            <b-form-input type="text" v-model="plr" placeholder="Packet Loss rate"/>
-          </div>
-          <div class="form-group col-xs-6">
-            <b-form-input type="text" v-model="kbps" placeholder="Kbps"/>
-          </div>
-          <div class="form-group col-xs-6">
-            <b-form-input type="text" v-model="delay" placeholder="Delays(ms)"/>
-          </div>
-          <div class="form-group col-xs-6">
-            <b-form-input type="text" v-model="qlen" placeholder="Qlen"/>
-          </div>
-          <div class="form-group col-xs-6">
-            <b-button variant="primary" type="submit">Add Spec</b-button>
-          </div>
-        </div>
-      </b-form>
+      <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes"/>
     </div>
 
     <div class="topology-recap">
@@ -69,31 +47,22 @@
 <script>
 import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
 import TopoLinkCreator from '@/components/topo_editor/TopoLinkCreator'
+import TopoSpecCreator from '@/components/topo_editor/TopoSpecCreator'
 export default {
   components: {
     'app-topo-node-creator': TopoNodeCreator,
-    'app-topo-link-creator': TopoLinkCreator
+    'app-topo-link-creator': TopoLinkCreator,
+    'app-topo-spec-creator': TopoSpecCreator
   },
   data(){
     return {
-      source: null,
-      target: null,
-      linkname: null,
-      linkSpec: null,
-      linkdelay: null,
-
-      specname: null,
-      plr: null,
-      kbps: null,
-      delay: null,
-      qlen: null,
-
       xml: null,
 
       nodes: [],
       edges: [],
       specs: [],
-      types: ['virtnode', 'gateway'],
+      nodeTypes: ['virtnode', 'gateway'],
+      specTypes: ['transit-transit', 'client-stub', 'stub-stub', 'stub-transit'],
       config: {
         elements: [],
         style: [
@@ -157,8 +126,8 @@ export default {
         this.edges.push({id: `link${item.source}${item.target}`, source: item.source, target: item.target, delay: item.linkDelay, spec: item.linkSpec})
       })
     },
-    addSpec () {
-      this.specs.push({name: this.specname, plr: this.plr, kbps: this.kbps, delay: this.delay, qlen: this.qlen})
+    addSpec (item) {
+      this.specs.push({name: item.specname, plr: item.plr, kbps: item.kbps, delay: item.delay, qlen: item.qlen})
     },
     generateXML () {
       var result = '<?xml version="1.0" encoding="ISO-8859-1"?>\n'
