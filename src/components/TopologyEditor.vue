@@ -15,7 +15,7 @@
     <div class="topology-form">
       <app-topo-node-creator @addNode="addNode" :types="nodeTypes" :nodes="nodes" @triggerErrors="triggerErrors"/>
       <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes" :edges="edges" @triggerErrors="triggerErrors"/>
-      <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes" @triggerErrors="triggerErrors"/>
+      <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes" :specs="specs" @triggerErrors="triggerErrors"/>
     </div>
 
     <b-row>
