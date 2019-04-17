@@ -2,10 +2,20 @@
   <div class="topology-editor">
     <h2>Topology Editor</h2>
 
+    <b-alert
+      variant="danger"
+      dismissible
+      fade
+      :show="formErrors != null"
+      @dismissed="formErrors=null"
+    >
+      {{formErrors}}
+    </b-alert>
+
     <div class="topology-form">
-      <app-topo-node-creator @addNode="addNode" :types="nodeTypes" :nodes="nodes"/>
-      <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes"/>
-      <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes"/>
+      <app-topo-node-creator @addNode="addNode" :types="nodeTypes" :nodes="nodes" @triggerErrors="triggerErrors"/>
+      <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes" @triggerErrors="triggerErrors"/>
+      <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes" @triggerErrors="triggerErrors"/>
     </div>
 
     <b-row>
@@ -68,7 +78,7 @@ export default {
   data(){
     return {
       xml: null,
-
+      formErrors: null,
       nodes: [],
       edges: [],
       specs: [],
@@ -146,6 +156,9 @@ export default {
     },
     randomNodePos () {
       return {x: (Math.floor(Math.random() * 600) + 30), y: (Math.floor(Math.random() * 450) + 30)}
+    },
+    triggerErrors (message) {
+      this.formErrors = message
     },
     generateXML () {
       var xml = XML_BUILDER.create('topology', {version: '1.0', encoding: 'ISO-8859-1'})

@@ -4,7 +4,6 @@
 
       <div class="form-group col-xs-4">
         <b-form-input type="text"  placeholder="Node name" v-model="nodeName"/>
-        <span class="error-msg">{{ errorMsg }}</span>
       </div>
 
       <div class="form-group col-xs-4">
@@ -30,8 +29,7 @@ export default {
   data () {
     return {
       nodeName: null,
-      nodeType: this.types[0],
-      errorMsg: null
+      nodeType: this.types[0]
     }
   },
   methods: {
@@ -40,9 +38,9 @@ export default {
         this.$emit('addNode', {id: this.nodeName, type: this.nodeType})
         this.nodeName = null
         this.nodeType = this.types[0]
-        this.errorMsg = null
+        this.$emit('triggerErrors', null)
       } else {
-        this.errorMsg = 'Make sure that all fields are present and no node exist with the same name'
+        this.$emit('triggerErrors', 'Node : Make sure that all fields are present and no node exist with the same name')
       }
     },
     validateNode() {
