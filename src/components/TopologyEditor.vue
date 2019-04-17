@@ -15,7 +15,7 @@
           <h3>Elements</h3>
           <div>
             <h4>Nodes</h4>
-            <b-button variant="outline-primary"size="sm" type="button" v-for="(node, index) in nodes" :key="index" @click="removeNode(node.name)" name="button">
+            <b-button variant="outline-primary" size="sm" type="button" v-for="(node, index) in nodes" :key="index" @click="removeNode(node.name)" name="button">
               {{ node.name }} <font-awesome-icon icon="times" />
             </b-button>
           </div>
@@ -44,10 +44,6 @@
       </b-col>
 
     </b-row>
-
-
-
-
 
     <div class="xml-result">
         <h1>XML</h1>
@@ -135,7 +131,7 @@ export default {
     },
     addNode (item) {
       this.$cytoscape.instance.then(cy => {
-        cy.add([ {data: {id: item.id}} ])
+        cy.add([ {data: {id: item.id}, position: this.randomNodePos()} ])
         this.nodes.push({name: item.id, nodeType: item.type})
       })
     },
@@ -147,6 +143,9 @@ export default {
     },
     addSpec (item) {
       this.specs.push({name: item.specname, plr: item.plr, kbps: item.kbps, delay: item.delay, qlen: item.qlen})
+    },
+    randomNodePos () {
+      return {x: (Math.floor(Math.random() * 600) + 30), y: (Math.floor(Math.random() * 450) + 30)}
     },
     generateXML () {
       var result = '<?xml version="1.0" encoding="ISO-8859-1"?>\n'
