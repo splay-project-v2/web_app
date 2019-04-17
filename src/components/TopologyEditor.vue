@@ -13,14 +13,26 @@
       <b-col>
         <div class="topology-recap">
           <h3>Elements</h3>
-          <div class="">
+          <div>
             <h4>Nodes</h4>
-            <b-button type="button" v-for="(node, index) in nodes" :key="index" @click="removeNode(node.name)" name="button">{{ node.name }}</b-button>
-
+            <b-button variant="outline-primary"size="sm" type="button" v-for="(node, index) in nodes" :key="index" @click="removeNode(node.name)" name="button">
+              {{ node.name }} <font-awesome-icon icon="times" />
+            </b-button>
           </div>
 
-          <h4>Edges</h4>
-          <b-button type="button" v-for="(edge, index) in edges" :key="index" @click="removeEdge(edge.id)" name="button">{{ edge.id }}</b-button>
+          <div>
+            <h4>Edges</h4>
+            <b-button variant="outline-primary" size="sm" type="button" v-for="(edge, index) in edges" :key="index" @click="removeEdge(edge.id)" name="button">
+              {{ edge.id }} | [delay({{edge.delay}}) - spec({{edge.spec}})] <font-awesome-icon icon="times" />
+            </b-button>
+          </div>
+
+          <div>
+            <h4>Specs</h4>
+            <b-button variant="outline-primary" size="sm" type="button" v-for="(spec, index) in specs" :key="index" @click="removeSpec(spec.name)" name="button">
+              {{ spec.name }} | [plr({{spec.plr}}) kbps({{spec.kbps}}) delay({{spec.delay}}ms) qlen({{spec.qlen}})] <font-awesome-icon icon="times" />
+            </b-button>
+          </div>
 
         </div>
       </b-col>
@@ -116,6 +128,11 @@ export default {
         })
       })
     },
+    removeSpec (specname) {
+      this.specs = this.specs.filter((item) => {
+        item.name != specname
+      })
+    },
     addNode (item) {
       this.$cytoscape.instance.then(cy => {
         cy.add([ {data: {id: item.id}} ])
@@ -180,7 +197,7 @@ export default {
 
 <style lang="css" scoped>
   .topology-diagram {
-    width: 900px;
+    width: 700px;
     height: 500px;
     border: solid grey 1px;
     border-radius: 3px;
