@@ -8,32 +8,31 @@
       <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes"/>
     </div>
 
-    <div class="topology-recap">
-      Recap <br>
-      <h4>Nodes</h4><br>
-      <div class="">
-        {{ nodes }}
-      </div>
-      <div class="">
-        <b-button type="button" v-for="node in nodes" @click="removeNode(node.name)"name="button">{{ node.name }}</b-button>
-      </div>
+    <b-row>
 
-      <h4>Edges</h4><br>
-      <div class="">
-        <b-button type="button" v-for="edge in edges" @click="removeEdge(edge.id)"name="button">{{ edge.id }}</b-button>
-      </div>
-      <div class="">
-        {{ edges }}
-      </div>
+      <b-col>
+        <div class="topology-recap">
+          <h3>Elements</h3>
+          <h4>Nodes</h4>
+          <b-button type="button" v-for="node in nodes" @click="removeNode(node.name)"name="button">{{ node.name }}</b-button>
 
-      <h4>Specs</h4><br>
-      {{ specs }} <br><br>
+          <h4>Edges</h4>
+          <b-button type="button" v-for="edge in edges" @click="removeEdge(edge.id)"name="button">{{ edge.id }}</b-button>
 
-    </div>
+        </div>
+      </b-col>
 
-    <div class="topology-diagram">
-      <cytoscape :config="config"/>
-    </div>
+      <b-col>
+        <div class="topology-diagram">
+          <cytoscape :config="config"/>
+        </div>
+      </b-col>
+
+    </b-row>
+
+
+
+
 
     <div class="xml-result">
         <h1>XML</h1>
@@ -137,7 +136,7 @@ export default {
         result += '\t<vertices>\n'
         var counter = 1
         this.nodes.forEach((node) => {
-          result += '\t\t<vertex int_idx="' + counter + '" int_src="' + node.nodeType + '" '
+          result += '\t\t<vertex int_idx="' + counter + '" role="' + node.nodeType + '" '
           if(node.nodeType == "virtnode"){
             result += 'int_vn="' + counter + '" '
           }
