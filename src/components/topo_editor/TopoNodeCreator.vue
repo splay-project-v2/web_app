@@ -3,7 +3,8 @@
     <div class="row">
 
       <div class="form-group col-xs-4">
-        <b-form-input type="text" placeholder="Node name" v-model="nodeName"/>
+        <b-form-input type="text"  placeholder="Node name" v-model="nodeName"/>
+        <span class="error-msg">{{ errorMsg }}</span>
       </div>
 
       <div class="form-group col-xs-4">
@@ -12,6 +13,7 @@
             {{ type }}
           </option>
         </b-form-select>
+        <span class="error-msg">{{ errors.first('nodeType') }}</span>
       </div>
 
       <div class="form-group col-xs-4">
@@ -28,16 +30,30 @@ export default {
   data () {
     return {
       nodeName: null,
-      nodeType: this.types[0]
+      nodeType: this.types[0],
+      errorMsg: null
     }
   },
   methods: {
     submitNode() {
-      this.$emit('addNode', {id: this.nodeName, type: this.nodeType})
+      if(this.validateNode()) {
+        this.$emit('addNode', {id: this.nodeName, type: this.nodeType})
+        this.nodeName = null
+        this.nodeType = this.types[0]
+        this.errorMsg = null
+      } else {
+        this.errorMsg = 'Make sure that all fields are present and no node exist with the same name'
+      }
+    },
+    validateNode() {
+      return this.errors.items.length == 0 && this.nodeName != null && this.nodeType != null && !this.nodes.some(el => el.name === this.nodeName)
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
+  .error-msg {
+    color: red;
+  }
 </style>
