@@ -14,7 +14,7 @@
 
     <div class="topology-form">
       <app-topo-node-creator @addNode="addNode" :types="nodeTypes" :nodes="nodes" @triggerErrors="triggerErrors"/>
-      <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes" @triggerErrors="triggerErrors"/>
+      <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes" :edges="edges" @triggerErrors="triggerErrors"/>
       <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes" @triggerErrors="triggerErrors"/>
     </div>
 
@@ -33,7 +33,7 @@
           <div>
             <h4>Edges</h4>
             <b-button variant="outline-primary" size="sm" type="button" v-for="(edge, index) in edges" :key="index" @click="removeEdge(edge.id)" name="button">
-              {{ edge.id }} | [delay({{edge.delay}}) - spec({{edge.spec}})] <font-awesome-icon icon="times" />
+              {{ edge.id }} | [delay({{edge.delay}}ms) - spec({{edge.spec}})] <font-awesome-icon icon="times" />
             </b-button>
           </div>
 

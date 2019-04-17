@@ -44,7 +44,7 @@ export default {
       }
     },
     validateNode() {
-      return this.errors.items.length == 0 && this.nodeName != null && this.nodeType != null && !this.nodes.some(el => el.name === this.nodeName)
+      return this.nodeName != null && this.nodeType != null && !this.nodes.some(el => el.name === this.nodeName)
     }
   }
 }
