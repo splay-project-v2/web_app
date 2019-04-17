@@ -55,6 +55,7 @@
 </template>
 
 <script>
+const XML_BUILDER = require('xmlbuilder');
 import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
 import TopoLinkCreator from '@/components/topo_editor/TopoLinkCreator'
 import TopoSpecCreator from '@/components/topo_editor/TopoSpecCreator'
@@ -95,7 +96,6 @@ export default {
         ],
         zoom: 1/1.5,
         pan: { x: 50, y: 50 },
-
          // interaction options:
         minZoom: 1/2,
         maxZoom: 5,
@@ -148,47 +148,37 @@ export default {
       return {x: (Math.floor(Math.random() * 600) + 30), y: (Math.floor(Math.random() * 450) + 30)}
     },
     generateXML () {
-      var result = '<?xml version="1.0" encoding="ISO-8859-1"?>\n'
-      result += '<topology>\n'
-
+      var xml = XML_BUILDER.create('topology', {version: '1.0', encoding: 'ISO-8859-1'})
       if(this.nodes.length > 0) {
-        result += '\t<vertices>\n'
+        var xmlVertices = xml.ele('vertices')
         let counter = 1
         this.nodes.forEach((node) => {
-          result += '\t\t<vertex int_idx="' + counter + '" role="' + node.nodeType + '" '
-          if(node.nodeType == "virtnode"){
-            result += 'int_vn="' + counter + '" '
-          }
-          result += '/>\n'
+          var item = xmlVertices.ele('vertex')
+          item.att('int_idx', counter)
+          item.att('role', node.nodeType)
+          if(node.nodeType == "virtnode") item.att('int_vn', counter)
           counter++
         })
-        result += '\t</vertices>\n'
       }
-
       if(this.edges.length > 0) {
-        result += '\t<edges>\n'
+        var xmlEdges = xml.ele('edges')
         let counter = 1
         this.edges.forEach((edge) => {
-          result += '\t\t<vertex int_idx="' + counter + '" int_src="' + edge.source + '" int_dst="' + edge.target + '" specs="' + edge.spec + '" '
-          if(edge.delay != null){
-            result += 'int_delayms="' + edge.delay + '" '
-          }
-          result += '/>\n'
+          var item = xmlEdges.ele('edge')
+          item.att('int_idx', counter); item.att('int_src', edge.source); item.att('int_dst', edge.target);
+          if(edge.delay != null) item.att('int_delayms', edge.delay)
+          if(edge.spec != null) item.att('specs', edge.spec)
           counter++
         })
-        result += '\t</edges>\n'
       }
-
       if(this.specs.length > 0) {
-        result += '\t<specs>\n'
+        var xmlSpecs = xml.ele('specs')
         this.specs.forEach((spec) => {
-          result += '\t\t<' + spec.name + ' dbl_plr="' + spec.plr + '" dbl_kbps="' + spec.kbps + '" int_delayms="' + spec.delay + '" int_qlen="' + spec.qlen + '" />\n'
+          var item = xmlSpecs.ele(spec.name)
+          item.att('dbl_plr', spec.plr); item.att('dbl_kbps', spec.kbps); item.att('int_delayms', spec.delay); item.att('int_qlen', spec.qlen);
         })
-        result += '\t</specs>\n'
       }
-
-      result += '</topology>'
-      this.xml = result
+      this.xml = xml.doc().end()
     }
   }
 }
