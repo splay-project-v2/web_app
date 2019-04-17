@@ -3,7 +3,7 @@
     <div class="row">
       <div class="form-group col-xs-4">
         <b-form-select v-model="specname">
-          <option v-for="type in specTypes">
+          <option v-for="(type, index) in specTypes" :key="index">
             {{ type }}
           </option>
         </b-form-select>

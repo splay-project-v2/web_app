@@ -8,7 +8,7 @@
 
       <div class="form-group col-xs-4">
         <b-form-select v-model="nodeType">
-          <option v-for="type in types" :value="type">
+          <option v-for="(type, index) in types" :value="type" :key="index">
             {{ type }}
           </option>
         </b-form-select>

@@ -13,11 +13,14 @@
       <b-col>
         <div class="topology-recap">
           <h3>Elements</h3>
-          <h4>Nodes</h4>
-          <b-button type="button" v-for="node in nodes" @click="removeNode(node.name)"name="button">{{ node.name }}</b-button>
+          <div class="">
+            <h4>Nodes</h4>
+            <b-button type="button" v-for="(node, index) in nodes" :key="index" @click="removeNode(node.name)" name="button">{{ node.name }}</b-button>
+
+          </div>
 
           <h4>Edges</h4>
-          <b-button type="button" v-for="edge in edges" @click="removeEdge(edge.id)"name="button">{{ edge.id }}</b-button>
+          <b-button type="button" v-for="(edge, index) in edges" :key="index" @click="removeEdge(edge.id)" name="button">{{ edge.id }}</b-button>
 
         </div>
       </b-col>
@@ -134,7 +137,7 @@ export default {
 
       if(this.nodes.length > 0) {
         result += '\t<vertices>\n'
-        var counter = 1
+        let counter = 1
         this.nodes.forEach((node) => {
           result += '\t\t<vertex int_idx="' + counter + '" role="' + node.nodeType + '" '
           if(node.nodeType == "virtnode"){
@@ -148,7 +151,7 @@ export default {
 
       if(this.edges.length > 0) {
         result += '\t<edges>\n'
-        var counter = 1
+        let counter = 1
         this.edges.forEach((edge) => {
           result += '\t\t<vertex int_idx="' + counter + '" int_src="' + edge.source + '" int_dst="' + edge.target + '" specs="' + edge.spec + '" '
           if(edge.delay != null){

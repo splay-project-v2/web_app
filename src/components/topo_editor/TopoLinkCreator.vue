@@ -4,7 +4,7 @@
       <div class="form-group col-xs-4">
         <b-form-select v-model="source">
           <option disabled value=null>Source</option>
-          <option v-for="node in nodes">
+          <option v-for="(node, index) in nodes" :key="index">
             {{ node.name }}
           </option>
         </b-form-select>
@@ -12,7 +12,7 @@
       <div class="form-group col-xs-4">
         <b-form-select v-model="target">
           <option disabled value=null>Destination</option>
-          <option v-for="node in nodes">
+          <option v-for="(node, index) in nodes" :key="index">
             {{ node.name }}
           </option>
         </b-form-select>
@@ -23,7 +23,7 @@
       <div class="form-group col-xs-4">
         <b-form-select v-model="linkSpec">
           <option disabled value=null>Spec (Optional)</option>
-          <option v-for="spec in specs">
+          <option v-for="(spec, index) in specs" :key="index">
             {{ spec.name }}
           </option>
         </b-form-select>
