@@ -14,6 +14,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faTimes)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+import 'prismjs';
+import 'prismjs/themes/prism.css';
+
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
