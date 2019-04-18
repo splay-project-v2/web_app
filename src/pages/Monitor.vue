@@ -35,14 +35,10 @@
 
     <div class="text-center">
       <b-button @click="fetchJobs" :disabled="currentRefresh.jobs" variant="primary mr-1">Refresh &#x21bb;</b-button>
-      <b-button v-b-toggle.collapseCreateJob variant="success">Create new job ✚</b-button>
+      <router-link :to="{name: 'createjob'}">
+        <b-button variant="success">Create new job ✚</b-button>
+      </router-link>
     </div>
-
-    <b-collapse id="collapseCreateJob" class="mt-5">
-      <b-card title="Create a new job">
-        <JobForm v-bind:auth="auth" @newJob="fetchJobs();"/>
-      </b-card>
-    </b-collapse>
 
     <b-modal ref="modalDetailJobRef" id="modalDetailJob" size="lg" title="Detail of a job">
       <JobDetail v-if="jobDetailId!=null" v-bind:job="jobs[jobDetailId]"/>
@@ -59,10 +55,8 @@
 </template>
 
 <script>
-import JobForm from "@/components/JobForm";
 import ListJobs from "@/components/ListJobs";
 import ListSplayd from "@/components/ListSplayd";
-
 import JobDetail from "@/components/JobDetail";
 
 import { listJobsAPI, listSplaydsAPI } from "@/services/api";
@@ -141,7 +135,6 @@ export default {
     auth: Object
   },
   components: {
-    JobForm,
     ListJobs,
     JobDetail,
     ListSplayd
