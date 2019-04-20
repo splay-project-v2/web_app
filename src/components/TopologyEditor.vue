@@ -24,21 +24,21 @@
           <div>
             <h6>Nodes</h6>
             <b-button variant="outline-primary" size="sm" type="button" v-for="(node, index) in nodes" :key="index" @click="removeNode(node.name)" name="button">
-              {{ node.name }} <font-awesome-icon icon="times" />
+              {{ node.name }} ×
             </b-button>
           </div>
 
           <div>
             <h6>Edges</h6>
             <b-button variant="outline-primary" size="sm" type="button" v-for="(edge, index) in edges" :key="index" @click="removeEdge(edge.id)" name="button">
-              {{ edge.id }} | [delay({{edge.delay}}ms) - spec({{edge.spec}})] <font-awesome-icon icon="times" />
+              {{ edge.id }} | [delay({{edge.delay}}ms) - spec({{edge.spec}})] ×
             </b-button>
           </div>
 
           <div>
             <h6>Specs</h6>
             <b-button variant="outline-primary" size="sm" type="button" v-for="(spec, index) in specs" :key="index" @click="removeSpec(spec.name)" name="button">
-              {{ spec.name }} | [plr({{spec.plr}}) kbps({{spec.kbps}}) delay({{spec.delay}}ms) qlen({{spec.qlen}})] <font-awesome-icon icon="times" />
+              {{ spec.name }} | [plr({{spec.plr}}) kbps({{spec.kbps}}) delay({{spec.delay}}ms) qlen({{spec.qlen}})] ×
             </b-button>
           </div>
 

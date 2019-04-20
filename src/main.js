@@ -8,12 +8,6 @@ import router from './router'
 import VueCytoscape from 'vue-cytoscape'
 import 'vue-cytoscape/dist/vue-cytoscape.css'
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faTimes)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-
 import 'prismjs';
 import 'prismjs/themes/prism.css';
 
