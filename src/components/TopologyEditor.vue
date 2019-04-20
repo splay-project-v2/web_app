@@ -146,7 +146,7 @@ export default {
     },
     removeSpec (specname) {
       this.specs = this.specs.filter((item) => {
-        item.name != specname
+        return item.name != specname
       })
       this.edges.forEach((edge) => {
         if(edge.spec == specname) this.removeEdge(edge.id)
