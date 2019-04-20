@@ -148,6 +148,9 @@ export default {
       this.specs = this.specs.filter((item) => {
         item.name != specname
       })
+      this.edges.forEach((edge) => {
+        if(edge.spec == specname) this.removeEdge(edge.id)
+      })
     },
     addNode (item) {
       this.$cytoscape.instance.then(cy => {
