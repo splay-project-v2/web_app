@@ -1,36 +1,45 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/pages/Home'
-import Login from '@/components/pages/Login'
-import Register from '@/components/pages/Register'
-import Monitor from '@/components/pages/Monitor'
+import Home from '@/pages/Home'
+import Login from '@/pages/Login'
+import Register from '@/pages/Register'
+import Monitor from '@/pages/Monitor'
+import CreateJob from '@/pages/CreateJob'
 
 Vue.use(Router)
 
 export default new Router({
     mode: 'history',
+    scrollBehavior () {
+      return { x: 0, y: 0 }
+    },
     routes: [{
-            path: '/',
-            name: "home",
-            component: Home
+          path: '/',
+          name: "home",
+          component: Home
         },
         {
-            path: '/home',
-            alias: 'home',
-            component: Home
+          path: '/home',
+          alias: 'home',
+          component: Home
         },
         {
-            path: '/login',
-            component: Login
+          path: '/login',
+          component: Login
         },
         {
-            path: '/register',
-            component: Register
+          path: '/register',
+          component: Register
         }, // Only when authentificated
         {
-            path: '/monitor',
-            name: "monitor",
-            component: Monitor
+          path: '/monitor',
+          name: "monitor",
+          component: Monitor
+        },
+        {
+          path: '/createjob',
+          name: 'createjob',
+          component: CreateJob
         }
     ]
 })

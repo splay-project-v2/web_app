@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1 class="text-center mt-3">Job Creation</h1>
     <b-form @submit="submitJob">
       <!-- NAME FIELD -->
       <div class="form-row">
@@ -57,21 +58,10 @@
         ></b-form-input>
         <b-form-invalid-feedback id="descriptionFeedback">{{ errors.first('Job Descrition') }}</b-form-invalid-feedback>
       </b-form-group>
-     
+
       <!-- TOPOLOGY FIELD -->
-      <b-form-group label="Topology (XML)" label-for="topologyJobForm" label-class="control-label">
-        <b-form-textarea
-          id="topologyJobForm"
-          type="text"
-          v-model="form.topology"
-          placeholder="Topo XML"
-          aria-describedby="topologyFeedback"
-          name="Topology"
-          v-validate="{required:false}"
-          :state="validateState('Topology')"
-          :rows="5"
-        ></b-form-textarea>
-        <b-form-invalid-feedback id="topologyFeedback">{{ errors.first('Topology') }}</b-form-invalid-feedback>
+      <b-form-group label="Topology (Optional)" label-for="topologyJobForm" label-class="control-label">
+        <app-topology-editor @addTopology="addTopology"/>
       </b-form-group>
       <!-- CODE FIELD -->
       <b-form-group label="Code (Lua 5.3)" label-for="aceEditor" label-class="control-label">
@@ -105,6 +95,7 @@
 
 <script>
 import { createJobAPI } from "@/services/api";
+import TopologyEditor from "@/components/TopologyEditor"
 
 var ace = require("brace");
 require("brace/mode/lua");
@@ -171,12 +162,15 @@ export default {
         Object.keys(this.veeFields).some(key => !this.veeFields[key].valid)
       );
     },
+    addTopology (xml) {
+      this.form.topology = xml
+    },
     validateState(ref) {
       if (
         this.veeFields[ref] &&
         (this.veeFields[ref].dirty || this.veeFields[ref].validated)
       ) {
-        return !this.errors.has(ref);
+        return !this.errors.has(ref)
       }
       return null;
     },
@@ -188,20 +182,22 @@ export default {
 
       createJobAPI(this.auth.token, this.form)
         .then(res => {
-          this.alerts.success = "New job created : " + res;
-          this.$emit("newJob");
+          this.alerts.success = "New job created : " + res
+          this.$router.replace("monitor");
         })
         .catch(error => {
           this.alerts.error = error.msg;
         }).finally(()=> {
-          setTimeout(() => {this.currentRefresh.submit = false}, 500) 
+          setTimeout(() => {this.currentRefresh.submit = false}, 500)
         });
     }
   },
   props: {
     auth: Object
   },
-  components: {}
+  components: {
+    'app-topology-editor': TopologyEditor
+  }
 };
 </script>
 
