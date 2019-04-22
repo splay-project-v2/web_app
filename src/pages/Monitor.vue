@@ -49,7 +49,7 @@
     </b-modal>
 
     <b-modal ref="modalDetailJobLogsRef" id="modalDetailJobLogs" size="lg" title="Logs of a Job">
-      {{ dataLogs }}
+      <LogsView v-if="dataLogs!=null" v-bind:logData="dataLogs"/>
     </b-modal>
   </div>
 </template>
@@ -58,6 +58,7 @@
 import ListJobs from "@/components/ListJobs";
 import ListSplayd from "@/components/ListSplayd";
 import JobDetail from "@/components/JobDetail";
+import LogsView from "@/components/LogsView";
 
 import { listJobsAPI, listSplaydsAPI } from "@/services/api";
 
@@ -137,7 +138,8 @@ export default {
   components: {
     ListJobs,
     JobDetail,
-    ListSplayd
+    ListSplayd,
+    LogsView
   }
 };
 </script>
