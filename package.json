@@ -20,6 +20,7 @@
     "vue-cytoscape": "^0.2.8",
     "vue-prism-component": "^1.1.1",
     "vue-router": "^3.0.2",
+    "xml-js": "^1.6.11",
     "xmlbuilder": "^12.0.0"
   },
   "devDependencies": {

@@ -55,6 +55,7 @@
 
     <div class="xml-result">
       <b-button type="button" name="button" @click="generateXML()">Generate XML</b-button>
+      <b-button type="button" name="button" @click="reflectXML()">Reflect XML</b-button>
       <b-button variant="danger" type="button" name="button" @click="resetAll()">Reset All</b-button><br>
       <div id="xmlEditor">
 
@@ -66,6 +67,7 @@
 
 <script>
 const XML_BUILDER = require('xmlbuilder');
+const XML_PARSER = require('xml-js')
 import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
 import TopoLinkCreator from '@/components/topo_editor/TopoLinkCreator'
 import TopoSpecCreator from '@/components/topo_editor/TopoSpecCreator'
@@ -226,6 +228,9 @@ export default {
       var editor = ace.edit("xmlEditor")
       editor.getSession().setValue(this.xml)
       this.$emit('addTopology', this.xml)
+    },
+    reflectXML () {
+      console.log(XML_PARSER.xml2json(this.xml, {compact: true, spaces: 4}))
     }
   }
 }
