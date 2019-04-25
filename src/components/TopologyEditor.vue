@@ -1,5 +1,5 @@
 <template>
-  <div class="container topology-editor">
+  <div class="topology-editor">
 
     <b-alert
       variant="danger"
@@ -56,7 +56,9 @@
     <div class="xml-result">
       <b-button type="button" name="button" @click="generateXML()">Generate XML</b-button>
       <b-button variant="danger" type="button" name="button" @click="resetAll()">Reset All</b-button><br>
-      <app-prism v-if="xml != null" language="xml">{{ xml }}</app-prism>
+      <div id="xmlEditor">
+
+      </div>
     </div>
 
   </div>
@@ -67,15 +69,28 @@ const XML_BUILDER = require('xmlbuilder');
 import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
 import TopoLinkCreator from '@/components/topo_editor/TopoLinkCreator'
 import TopoSpecCreator from '@/components/topo_editor/TopoSpecCreator'
-import Prism from 'vue-prism-component'
+
+var ace = require("brace");
+require("brace/mode/xml");
+require("brace/theme/solarized_light");
+
 export default {
   components: {
     'app-topo-node-creator': TopoNodeCreator,
     'app-topo-link-creator': TopoLinkCreator,
-    'app-topo-spec-creator': TopoSpecCreator,
-    'app-prism': Prism
+    'app-topo-spec-creator': TopoSpecCreator
   },
-  data(){
+  mounted () {
+    var dis = this
+    var editor = ace.edit("xmlEditor")
+    editor.setTheme("ace/theme/solarized_light")
+    editor.session.setMode("ace/mode/xml")
+    editor.getSession().on("change", function() {
+      var code = editor.getSession().getValue()
+      dis.xml = code
+    });
+  },
+  data () {
     return {
       xml: null,
       formErrors: null,
@@ -115,7 +130,7 @@ export default {
     }
   },
   methods: {
-    resetAll() {
+    resetAll () {
       this.$cytoscape.instance.then(cy => {
         cy.elements().remove()
       })
@@ -208,6 +223,8 @@ export default {
       }
 
       this.xml = xml.doc().end( {pretty: true, newline: '\n'} )
+      var editor = ace.edit("xmlEditor")
+      editor.getSession().setValue(this.xml)
       this.$emit('addTopology', this.xml)
     }
   }
@@ -220,5 +237,8 @@ export default {
     height: 400px;
     border: solid grey 1px;
     border-radius: 3px;
+  }
+  #xmlEditor {
+    height: 400px;
   }
 </style>
