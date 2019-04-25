@@ -191,7 +191,7 @@ export default {
       this.formErrors = message
     },
     generateXML () {
-      var xml = XML_BUILDER.create('topology', {version: '1.0', encoding: 'ISO-8859-1'})
+      var xml = XML_BUILDER.create('topology', {version: '1.0', encoding: 'ISO-8859-1'}, { keepNullAttributes: false })
       var dict = {}
       if(this.nodes.length > 0) {
         var xmlVertices = xml.ele('vertices')
@@ -210,9 +210,7 @@ export default {
         let counter = 1
         this.edges.forEach((edge) => {
           var item = xmlEdges.ele('edge')
-          item.att('int_idx', counter); item.att('int_src', dict[edge.source]); item.att('int_dst', dict[edge.target]);
-          if(edge.delay != null) item.att('int_delayms', edge.delay)
-          if(edge.spec != null) item.att('specs', edge.spec)
+          item.att('int_idx', counter); item.att('int_src', dict[edge.source]); item.att('int_dst', dict[edge.target]); item.att('int_delayms', edge.delay); item.att('specs', edge.spec)
           counter++
         })
       }
@@ -230,7 +228,31 @@ export default {
       this.$emit('addTopology', this.xml)
     },
     reflectXML () {
+      this.$cytoscape.instance.then(cy => {
+        cy.elements().remove()
+      })
+      this.nodes = []
+      this.edges = []
+      this.specs = []
       console.log(XML_PARSER.xml2json(this.xml, {compact: true, spaces: 4}))
+      var parsed = JSON.parse(XML_PARSER.xml2json(this.xml, {compact: true, spaces: 4}))
+      console.log(parsed)
+      if(parsed.topology.vertices) {
+        parsed.topology.vertices.vertex.forEach((node) => {
+          this.addNode({id: `${node._attributes.role}${node._attributes.int_idx}`, type: node._attributes.role})
+        })
+      }
+      if(parsed.topology.specs) {
+        for (var key in parsed.topology.specs) {
+          let attr = parsed.topology.specs[key]._attributes
+          this.addSpec({specname: key, plr: attr.dbl_plr, kbps: attr.dbl_kbps, delay: attr.int_delayms, qlen: attr.int_qlen})
+        }
+        parsed.topology.edges.edge.forEach((edge) => {
+          var src = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_src)-1]
+          var trg = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_dst)-1]
+          this.addLink({source: `${src._attributes.role}${src._attributes.int_idx}`, target: `${trg._attributes.role}${trg._attributes.int_idx}`, linkSpec: edge._attributes.specs, linkDelay: edge._attributes.int_delayms})
+        })
+      }
     }
   }
 }
