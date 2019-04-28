@@ -14,7 +14,7 @@
     <div class="topology-form">
       <app-topo-node-creator @addNode="addNode" :types="nodeTypes" :nodes="nodes" @triggerErrors="triggerErrors"/>
       <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes" :edges="edges" @triggerErrors="triggerErrors"/>
-      <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes" :specs="specs" @triggerErrors="triggerErrors"/>
+      <app-topo-spec-creator @addSpec="addSpec" :specs="specs" @triggerErrors="triggerErrors"/>
     </div>
 
     <b-row>
@@ -100,7 +100,6 @@ export default {
       edges: [],
       specs: [],
       nodeTypes: ['virtnode', 'gateway'],
-      specTypes: ['client-stub', 'transit-transit', 'stub-stub', 'stub-transit'],
       config: {
         elements: [],
         style: [
@@ -234,9 +233,7 @@ export default {
       this.nodes = []
       this.edges = []
       this.specs = []
-      console.log(XML_PARSER.xml2json(this.xml, {compact: true, spaces: 4}))
       var parsed = JSON.parse(XML_PARSER.xml2json(this.xml, {compact: true, spaces: 4}))
-      console.log(parsed)
       if(parsed.topology.vertices) {
         parsed.topology.vertices.vertex.forEach((node) => {
           this.addNode({id: `${node._attributes.role}${node._attributes.int_idx}`, type: node._attributes.role})
