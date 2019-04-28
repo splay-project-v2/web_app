@@ -8,9 +8,6 @@ import router from './router'
 import VueCytoscape from 'vue-cytoscape'
 import 'vue-cytoscape/dist/vue-cytoscape.css'
 
-import 'prismjs';
-import 'prismjs/themes/prism.css';
-
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)

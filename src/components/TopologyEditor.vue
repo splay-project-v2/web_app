@@ -1,5 +1,5 @@
 <template>
-  <div class="container topology-editor">
+  <div class="topology-editor">
 
     <b-alert
       variant="danger"
@@ -14,7 +14,7 @@
     <div class="topology-form">
       <app-topo-node-creator @addNode="addNode" :types="nodeTypes" :nodes="nodes" @triggerErrors="triggerErrors"/>
       <app-topo-link-creator @addLink="addLink" :specs="specs" :nodes="nodes" :edges="edges" @triggerErrors="triggerErrors"/>
-      <app-topo-spec-creator @addSpec="addSpec" :specTypes="specTypes" :specs="specs" @triggerErrors="triggerErrors"/>
+      <app-topo-spec-creator @addSpec="addSpec" :specs="specs" @triggerErrors="triggerErrors"/>
     </div>
 
     <b-row>
@@ -55,8 +55,11 @@
 
     <div class="xml-result">
       <b-button type="button" name="button" @click="generateXML()">Generate XML</b-button>
+      <b-button type="button" name="button" @click="reflectXML()">Reflect XML</b-button>
       <b-button variant="danger" type="button" name="button" @click="resetAll()">Reset All</b-button><br>
-      <app-prism v-if="xml != null" language="xml">{{ xml }}</app-prism>
+      <div id="xmlEditor">
+
+      </div>
     </div>
 
   </div>
@@ -64,18 +67,32 @@
 
 <script>
 const XML_BUILDER = require('xmlbuilder');
+const XML_PARSER = require('xml-js')
 import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
 import TopoLinkCreator from '@/components/topo_editor/TopoLinkCreator'
 import TopoSpecCreator from '@/components/topo_editor/TopoSpecCreator'
-import Prism from 'vue-prism-component'
+
+var ace = require("brace");
+require("brace/mode/xml");
+require("brace/theme/solarized_light");
+
 export default {
   components: {
     'app-topo-node-creator': TopoNodeCreator,
     'app-topo-link-creator': TopoLinkCreator,
-    'app-topo-spec-creator': TopoSpecCreator,
-    'app-prism': Prism
+    'app-topo-spec-creator': TopoSpecCreator
   },
-  data(){
+  mounted () {
+    var dis = this
+    var editor = ace.edit("xmlEditor")
+    editor.setTheme("ace/theme/solarized_light")
+    editor.session.setMode("ace/mode/xml")
+    editor.getSession().on("change", function() {
+      var code = editor.getSession().getValue()
+      dis.xml = code
+    });
+  },
+  data () {
     return {
       xml: null,
       formErrors: null,
@@ -83,7 +100,6 @@ export default {
       edges: [],
       specs: [],
       nodeTypes: ['virtnode', 'gateway'],
-      specTypes: ['client-stub', 'transit-transit', 'stub-stub', 'stub-transit'],
       config: {
         elements: [],
         style: [
@@ -115,7 +131,7 @@ export default {
     }
   },
   methods: {
-    resetAll() {
+    resetAll () {
       this.$cytoscape.instance.then(cy => {
         cy.elements().remove()
       })
@@ -174,7 +190,7 @@ export default {
       this.formErrors = message
     },
     generateXML () {
-      var xml = XML_BUILDER.create('topology', {version: '1.0', encoding: 'ISO-8859-1'})
+      var xml = XML_BUILDER.create('topology', {version: '1.0', encoding: 'ISO-8859-1'}, { keepNullAttributes: false })
       var dict = {}
       if(this.nodes.length > 0) {
         var xmlVertices = xml.ele('vertices')
@@ -193,9 +209,7 @@ export default {
         let counter = 1
         this.edges.forEach((edge) => {
           var item = xmlEdges.ele('edge')
-          item.att('int_idx', counter); item.att('int_src', dict[edge.source]); item.att('int_dst', dict[edge.target]);
-          if(edge.delay != null) item.att('int_delayms', edge.delay)
-          if(edge.spec != null) item.att('specs', edge.spec)
+          item.att('int_idx', counter); item.att('int_src', dict[edge.source]); item.att('int_dst', dict[edge.target]); item.att('int_delayms', edge.delay); item.att('specs', edge.spec)
           counter++
         })
       }
@@ -208,7 +222,34 @@ export default {
       }
 
       this.xml = xml.doc().end( {pretty: true, newline: '\n'} )
+      var editor = ace.edit("xmlEditor")
+      editor.getSession().setValue(this.xml)
       this.$emit('addTopology', this.xml)
+    },
+    reflectXML () {
+      this.$cytoscape.instance.then(cy => {
+        cy.elements().remove()
+      })
+      this.nodes = []
+      this.edges = []
+      this.specs = []
+      var parsed = JSON.parse(XML_PARSER.xml2json(this.xml, {compact: true, spaces: 4}))
+      if(parsed.topology.vertices) {
+        parsed.topology.vertices.vertex.forEach((node) => {
+          this.addNode({id: `${node._attributes.role}${node._attributes.int_idx}`, type: node._attributes.role})
+        })
+      }
+      if(parsed.topology.specs) {
+        for (var key in parsed.topology.specs) {
+          let attr = parsed.topology.specs[key]._attributes
+          this.addSpec({specname: key, plr: attr.dbl_plr, kbps: attr.dbl_kbps, delay: attr.int_delayms, qlen: attr.int_qlen})
+        }
+        parsed.topology.edges.edge.forEach((edge) => {
+          var src = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_src)-1]
+          var trg = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_dst)-1]
+          this.addLink({source: `${src._attributes.role}${src._attributes.int_idx}`, target: `${trg._attributes.role}${trg._attributes.int_idx}`, linkSpec: edge._attributes.specs, linkDelay: edge._attributes.int_delayms})
+        })
+      }
     }
   }
 }
@@ -220,5 +261,8 @@ export default {
     height: 400px;
     border: solid grey 1px;
     border-radius: 3px;
+  }
+  #xmlEditor {
+    height: 400px;
   }
 </style>
