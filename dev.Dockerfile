@@ -1,5 +1,5 @@
 # DEV DOCKER FILE - ADD VOLUME WITH DOCKER COMPOSE 
-FROM node:11.6.0-alpine
+FROM node:11.14-alpine
 
 WORKDIR /app
 
