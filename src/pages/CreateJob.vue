@@ -117,7 +117,7 @@ for _, n in pairs(neighbours) do print(" - "..n.ip..":"..n.port) end
 print("Exit Discovering Job")`;
 
 export default {
-  name: "JobForm",
+  name: "CreateJob",
   data() {
     return {
       currentRefresh: {

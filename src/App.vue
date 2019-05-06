@@ -13,8 +13,9 @@
         >
           <span v-html="alerts.success"></span>
         </b-alert>
-
-        <router-view v-bind:auth="auth" @login="login"/>
+        <keep-alive include="CreateJob">
+          <router-view v-bind:auth="auth" @login="login"/>
+        </keep-alive>
       </div>
       <div class="col"></div>
     </div>
