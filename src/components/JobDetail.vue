@@ -6,20 +6,20 @@
 
 <script>
 export default {
-  name: "JobDetail",
-  data() {
+  name: 'JobDetail',
+  data () {
     return {
       fields: {
-        0:{
+        0: {
           label: 'Attributes',
           sortable: true
         },
-        1:{
+        1: {
           label: 'Value',
           sortable: false
         }
       }
-    };
+    }
   },
   methods: {
 
@@ -28,7 +28,7 @@ export default {
     job: Object
   },
   components: {}
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

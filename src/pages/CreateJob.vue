@@ -94,12 +94,12 @@
 </template>
 
 <script>
-import { createJobAPI } from "@/services/api";
-import TopologyEditor from "@/components/TopologyEditor"
+import { createJobAPI } from '@/services/api'
+import TopologyEditor from '@/components/TopologyEditor'
 
-var ace = require("brace");
-require("brace/mode/lua");
-require("brace/theme/monokai");
+var ace = require('brace')
+require('brace/mode/lua')
+require('brace/theme/monokai')
 
 const codeDefault = `--[[
 
@@ -114,11 +114,11 @@ neighbours = job.nodes
 print("I am link to :")
 for _, n in pairs(neighbours) do print(" - "..n.ip..":"..n.port) end
 
-print("Exit Discovering Job")`;
+print("Exit Discovering Job")`
 
 export default {
-  name: "CreateJob",
-  data() {
+  name: 'CreateJob',
+  data () {
     return {
       currentRefresh: {
         submit: false
@@ -129,9 +129,9 @@ export default {
       },
       options: {
         scheduler: [
-          { value: "standard", text: "Standard Job" },
-          { value: "trace", text: "Trace Job" },
-          { value: "tracealt", text: "Trace Alt Job" }
+          { value: 'standard', text: 'Standard Job' },
+          { value: 'trace', text: 'Trace Job' },
+          { value: 'tracealt', text: 'Trace Alt Job' }
         ]
       },
       form: {
@@ -140,56 +140,56 @@ export default {
         description: null,
         nb_splayds: 5,
         topology: null,
-        scheduler: "standard"
+        scheduler: 'standard'
       }
-    };
+    }
   },
-  mounted() {
-    var me = this;
-    var editor = ace.edit("aceEditor");
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/lua");
-    editor.getSession().setValue(codeDefault);
-    editor.getSession().on("change", function() {
-      var code = editor.getSession().getValue();
-      me.form.code = code;
-    });
+  mounted () {
+    var me = this
+    var editor = ace.edit('aceEditor')
+    editor.setTheme('ace/theme/monokai')
+    editor.session.setMode('ace/mode/lua')
+    editor.getSession().setValue(codeDefault)
+    editor.getSession().on('change', function () {
+      var code = editor.getSession().getValue()
+      me.form.code = code
+    })
   },
   methods: {
-    disableSubmit() {
+    disableSubmit () {
       return (
-        this.errors.any() ||  this.currentRefresh.submit ||
+        this.errors.any() || this.currentRefresh.submit ||
         Object.keys(this.veeFields).some(key => !this.veeFields[key].valid)
-      );
+      )
     },
     addTopology (xml) {
       this.form.topology = xml
     },
-    validateState(ref) {
+    validateState (ref) {
       if (
         this.veeFields[ref] &&
         (this.veeFields[ref].dirty || this.veeFields[ref].validated)
       ) {
         return !this.errors.has(ref)
       }
-      return null;
+      return null
     },
-    submitJob(evt) {
-      evt.preventDefault();
-      this.alerts.error = null;
-      this.alerts.success = null;
+    submitJob (evt) {
+      evt.preventDefault()
+      this.alerts.error = null
+      this.alerts.success = null
       this.currentRefresh.submit = true
 
       createJobAPI(this.auth.token, this.form)
         .then(res => {
-          this.alerts.success = "New job created : " + res
-          this.$router.replace("monitor");
+          this.alerts.success = 'New job created : ' + res
+          this.$router.replace('monitor')
         })
         .catch(error => {
-          this.alerts.error = error.msg;
-        }).finally(()=> {
-          setTimeout(() => {this.currentRefresh.submit = false}, 500)
-        });
+          this.alerts.error = error.msg
+        }).finally(() => {
+          setTimeout(() => { this.currentRefresh.submit = false }, 500)
+        })
     }
   },
   props: {
@@ -198,7 +198,7 @@ export default {
   components: {
     'app-topology-editor': TopologyEditor
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

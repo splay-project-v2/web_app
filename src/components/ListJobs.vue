@@ -16,40 +16,40 @@
 </template>
 
 <script>
-import { getLogsAPI, killJobAPI } from "@/services/api";
+import { getLogsAPI, killJobAPI } from '@/services/api'
 
 export default {
-  name: "ListJobs",
-  data() {
+  name: 'ListJobs',
+  data () {
     return {
-      alerts: {error: null},
-      fields: ["status", "id", "created_at", "nb_splayds", "name", "actions"]
-    };
+      alerts: { error: null },
+      fields: ['status', 'id', 'created_at', 'nb_splayds', 'name', 'actions']
+    }
   },
   methods: {
-    detail(index) {
-      this.$emit("showJobDetails", index);
+    detail (index) {
+      this.$emit('showJobDetails', index)
     },
-    killJob(item) {
+    killJob (item) {
       killJobAPI(this.auth.token, item.id).then(() => {
-        this.$emit("refreshJobs");
+        this.$emit('refreshJobs')
       }).catch(error => {
-        this.alerts.error = error.msg;
-      });
+        this.alerts.error = error.msg
+      })
     },
-    getLogs(item) {
+    getLogs (item) {
       getLogsAPI(this.auth.token, item.id).then((response) => {
-        this.$emit("showJobLogs", response.data.logs)
+        this.$emit('showJobLogs', response.data.logs)
       }).catch(error => {
-        this.alerts.error = error.msg;
-      });
+        this.alerts.error = error.msg
+      })
     }
   },
   props: {
     jobs: Array,
     auth: Object
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

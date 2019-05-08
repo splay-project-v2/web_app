@@ -11,22 +11,22 @@
 
 <script>
 export default {
-  name: "ListSplayd",
-  data() {
+  name: 'ListSplayd',
+  data () {
     return {
-      fields: ["status", "ip", "name", "lua_version", "actions"]
-    };
+      fields: ['status', 'ip', 'name', 'lua_version', 'actions']
+    }
   },
   methods: {
-    detail(index) {
-      this.$emit("showSplaydDetails", index);
-    },
+    detail (index) {
+      this.$emit('showSplaydDetails', index)
+    }
   },
   props: {
     splayds: Array,
     auth: Object
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -45,8 +45,8 @@ export default {
   },
   methods: {
     sendSpec () {
-      if(this.validateSpec()){
-        this.$emit('addSpec', {specname: this.specname, plr: this.plr, kbps: this.kbps, delay: this.delay, qlen: this.qlen})
+      if (this.validateSpec()) {
+        this.$emit('addSpec', { specname: this.specname, plr: this.plr, kbps: this.kbps, delay: this.delay, qlen: this.qlen })
         this.$emit('triggerErrors', null)
         this.specname = null
         this.plr = null
@@ -55,12 +55,12 @@ export default {
         this.qlen = null
       }
     },
-    validateSpec() {
-      if(this.specname == null || this.kbps == null){
+    validateSpec () {
+      if (this.specname == null || this.kbps == null) {
         this.$emit('triggerErrors', 'Spec: Please fill in all the fields')
         return false
       }
-      if (this.specs.some(el => el.name === this.specname)){
+      if (this.specs.some(el => el.name === this.specname)) {
         this.$emit('triggerErrors', 'Spec: This spec already exists')
         return false
       }

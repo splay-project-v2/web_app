@@ -24,16 +24,16 @@
 </template>
 
 <script>
-import "bootstrap";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-import Header from "./components/partials/Header.vue";
-import Footer from "./components/partials/Footer.vue";
+import Header from './components/partials/Header.vue'
+import Footer from './components/partials/Footer.vue'
 
 export default {
-  name: "app",
-  data: function() {
+  name: 'app',
+  data: function () {
     return {
       alerts: {
         success: null
@@ -44,38 +44,38 @@ export default {
         token: localStorage.token,
         checked: false
       }
-    };
+    }
   },
   methods: {
-    login(user, token) {
-      this.auth.isAuth = true;
-      this.auth.username = user;
-      this.auth.token = token;
+    login (user, token) {
+      this.auth.isAuth = true
+      this.auth.username = user
+      this.auth.token = token
 
       localStorage.username = user
       localStorage.token = token
 
-      this.alerts.success = `Welcome into SplayV2 <b>${user}</b>!`;
+      this.alerts.success = `Welcome into SplayV2 <b>${user}</b>!`
     },
-    logout() {
-      this.auth.isAuth = false;
-      this.auth.username = null;
-      this.auth.token = null;
+    logout () {
+      this.auth.isAuth = false
+      this.auth.username = null
+      this.auth.token = null
 
-      localStorage.removeItem("username")
-      localStorage.removeItem("token")
+      localStorage.removeItem('username')
+      localStorage.removeItem('token')
 
-      this.alerts.success = `<b>Logout</b> success!`;
+      this.alerts.success = `<b>Logout</b> success!`
     }
   },
   components: {
     Header,
     Footer
   },
-  mounted() {
-    
+  mounted () {
+
   }
-};
+}
 </script>
 
 <style>

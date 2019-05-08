@@ -72,39 +72,39 @@
 </template>
 
 <script>
-import { registerAPI } from "@/services/api";
+import { registerAPI } from '@/services/api'
 
 export default {
-  name: "Register",
-  data() {
+  name: 'Register',
+  data () {
     return {
       form: {},
       alerts: {
         error: null
       }
-    };
+    }
   },
   props: {},
   methods: {
-    disableSubmit() {
+    disableSubmit () {
       return (
         this.errors.any() ||
         Object.keys(this.veeFields).some(key => !this.veeFields[key].valid)
-      );
+      )
     },
-    validateState(ref) {
+    validateState (ref) {
       if (
         this.veeFields[ref] &&
         (this.veeFields[ref].dirty || this.veeFields[ref].validated)
       ) {
-        return !this.errors.has(ref);
+        return !this.errors.has(ref)
       }
-      return null;
+      return null
     },
-    submitRegister(evt) {
-      evt.preventDefault();
-      this.alerts.error = null;
-      const username = this.form.username;
+    submitRegister (evt) {
+      evt.preventDefault()
+      this.alerts.error = null
+      const username = this.form.username
       registerAPI(
         username,
         this.form.email,
@@ -112,15 +112,15 @@ export default {
         this.form.passwordConfirmation
       )
         .then(res => {
-          this.$emit("login", username, res.data.token);
-          this.$router.replace("home");
+          this.$emit('login', username, res.data.token)
+          this.$router.replace('home')
         })
         .catch(error => {
-          this.alerts.error = error.msg;
-        });
+          this.alerts.error = error.msg
+        })
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

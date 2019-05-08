@@ -33,9 +33,9 @@ export default {
     }
   },
   methods: {
-    submitNode() {
-      if(this.validateNode()) {
-        this.$emit('addNode', {id: this.nodeName, type: this.nodeType})
+    submitNode () {
+      if (this.validateNode()) {
+        this.$emit('addNode', { id: this.nodeName, type: this.nodeType })
         this.nodeName = null
         this.nodeType = this.types[0]
         this.$emit('triggerErrors', null)
@@ -43,7 +43,7 @@ export default {
         this.$emit('triggerErrors', 'Node : Make sure that all fields are present and no node exist with the same name')
       }
     },
-    validateNode() {
+    validateNode () {
       return this.nodeName != null && this.nodeType != null && !this.nodes.some(el => el.name === this.nodeName)
     }
   }

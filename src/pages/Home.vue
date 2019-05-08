@@ -23,12 +23,12 @@
 
 <script>
 export default {
-  name: "Home",
-  props: { 
-    auth : Object
+  name: 'Home',
+  props: {
+    auth: Object
   },
   methods: {}
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
