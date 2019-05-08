@@ -68,6 +68,7 @@ export default {
       }
       if (this.source === this.target) {
         this.$emit('triggerErrors', 'Link: Source and target cannot be the same !')
+        return false
       }
       if (this.edges.some(el => el.id === `link${this.source}${this.target}`)) {
         this.$emit('triggerErrors', 'Link: This link already exists')

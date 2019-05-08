@@ -12,7 +12,6 @@
             {{ type }}
           </option>
         </b-form-select>
-        <span class="error-msg">{{ errors.first('nodeType') }}</span>
       </div>
 
       <div class="form-group col-xs-4">
