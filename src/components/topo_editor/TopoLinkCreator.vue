@@ -48,8 +48,8 @@ export default {
   },
   methods: {
     submitLink () {
-      if(this.validateLink()){
-        this.$emit('addLink', {source: this.source, target: this.target, linkSpec: this.linkSpec, linkDelay: this.linkDelay})
+      if (this.validateLink()) {
+        this.$emit('addLink', { source: this.source, target: this.target, linkSpec: this.linkSpec, linkDelay: this.linkDelay })
         this.$emit('triggerErrors', null)
         this.source = null
         this.target = null
@@ -57,19 +57,20 @@ export default {
         this.linkDelay = null
       }
     },
-    validateLink() {
-      if (this.linkSpec == null){
+    validateLink () {
+      if (this.linkSpec == null) {
         this.$emit('triggerErrors', 'Link: A spec must exist for this link')
         return false
       }
-      if (this.source == null || this.target == null){
+      if (this.source == null || this.target == null) {
         this.$emit('triggerErrors', 'Link: Please set source and target for link')
         return false
       }
-      if (this.source == this.target){
+      if (this.source === this.target) {
         this.$emit('triggerErrors', 'Link: Source and target cannot be the same !')
+        return false
       }
-      if (this.edges.some(el => el.id === `link${this.source}${this.target}`)){
+      if (this.edges.some(el => el.id === `link${this.source}${this.target}`)) {
         this.$emit('triggerErrors', 'Link: This link already exists')
         return false
       }

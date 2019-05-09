@@ -8,28 +8,28 @@
 
 <script>
 export default {
-  name: "LogsView",
-  data() {
-    return {};
+  name: 'LogsView',
+  data () {
+    return {}
   },
   methods: {
-    dynamicDownloadLog() {
+    dynamicDownloadLog () {
       const text = this.logData
-      var blob = new Blob([text], { type: "text" });
+      var blob = new Blob([text], { type: 'text' })
       var a = this.$refs.dynamicDL
-      a.href = URL.createObjectURL(blob);
-      a.dataset.downloadurl = ["text", a.download, a.href].join(":");
-      a.click();
-      setTimeout(function() {
-        URL.revokeObjectURL(a.href);
-      }, 2500);
+      a.href = URL.createObjectURL(blob)
+      a.dataset.downloadurl = ['text', a.download, a.href].join(':')
+      a.click()
+      setTimeout(function () {
+        URL.revokeObjectURL(a.href)
+      }, 2500)
     }
   },
   props: {
     logData: String
   },
   components: {}
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

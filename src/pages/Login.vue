@@ -31,46 +31,46 @@
 </template>
 
 <script>
-import { loginAPI } from "@/services/api";
+import { loginAPI } from '@/services/api'
 
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
       input: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       },
       alerts: {
         error: null
       }
-    };
+    }
   },
   methods: {
-    submitLogin(evt) {
-      evt.preventDefault();
+    submitLogin (evt) {
+      evt.preventDefault()
       if (this.checkInputs()) {
-        const username = this.input.username;
+        const username = this.input.username
         loginAPI(username, this.input.password)
           .then(res => {
-            this.$emit("login", username, res.data.token);
-            this.$router.replace("home");
+            this.$emit('login', username, res.data.token)
+            this.$router.replace('home')
           })
           .catch(error => {
-            this.alerts.error = error.msg;
-          });
+            this.alerts.error = error.msg
+          })
       }
     },
-    checkInputs() {
-      if (this.input.username == "" || this.input.password == "") {
-        this.alerts.error = "Username or Password can't be <b>empty</b>";
-        return false;
+    checkInputs () {
+      if (this.input.username === '' || this.input.password === '') {
+        this.alerts.error = "Username or Password can't be <b>empty</b>"
+        return false
       }
-      return true;
+      return true
     }
   },
   components: {}
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -5,7 +5,7 @@
       variant="danger"
       dismissible
       fade
-      :show="formErrors != null"
+      :show="formErrors !== null"
       @dismissed="formErrors=null"
     >
       {{formErrors}}
@@ -66,15 +66,15 @@
 </template>
 
 <script>
-const XML_BUILDER = require('xmlbuilder');
-const XML_PARSER = require('xml-js')
 import TopoNodeCreator from '@/components/topo_editor/TopoNodeCreator'
 import TopoLinkCreator from '@/components/topo_editor/TopoLinkCreator'
 import TopoSpecCreator from '@/components/topo_editor/TopoSpecCreator'
+const XML_BUILDER = require('xmlbuilder')
+const XML_PARSER = require('xml-js')
 
-var ace = require("brace");
-require("brace/mode/xml");
-require("brace/theme/solarized_light");
+var ace = require('brace')
+require('brace/mode/xml')
+require('brace/theme/solarized_light')
 
 export default {
   components: {
@@ -84,13 +84,14 @@ export default {
   },
   mounted () {
     var dis = this
-    var editor = ace.edit("xmlEditor")
-    editor.setTheme("ace/theme/solarized_light")
-    editor.session.setMode("ace/mode/xml")
-    editor.getSession().on("change", function() {
+    var editor = ace.edit('xmlEditor')
+    editor.$blockScrolling = Infinity
+    editor.setTheme('ace/theme/solarized_light')
+    editor.session.setMode('ace/mode/xml')
+    editor.getSession().on('change', function () {
       var code = editor.getSession().getValue()
       dis.xml = code
-    });
+    })
   },
   data () {
     return {
@@ -120,10 +121,10 @@ export default {
             }
           }
         ],
-        zoom: 1/1.5,
+        zoom: 1 / 1.5,
         pan: { x: 50, y: 50 },
-         // interaction options:
-        minZoom: 1/2,
+        // interaction options:
+        minZoom: 1 / 2,
         maxZoom: 5,
         zoomingEnabled: false,
         userZoomingEnabled: false
@@ -145,10 +146,10 @@ export default {
       this.$cytoscape.instance.then(cy => {
         cy.remove(`#${nodename}`)
         this.nodes = this.nodes.filter((item) => {
-          return item.name != nodename
+          return item.name !== nodename
         })
         this.edges = this.edges.filter((item) => {
-          return item.source != nodename && item.target != nodename
+          return item.source !== nodename && item.target !== nodename
         })
       })
     },
@@ -156,43 +157,43 @@ export default {
       this.$cytoscape.instance.then(cy => {
         cy.remove(`#${edgeId}`)
         this.edges = this.edges.filter((item) => {
-          return item.id != edgeId
+          return item.id !== edgeId
         })
       })
     },
     removeSpec (specname) {
       this.specs = this.specs.filter((item) => {
-        return item.name != specname
+        return item.name !== specname
       })
       this.edges.forEach((edge) => {
-        if(edge.spec == specname) this.removeEdge(edge.id)
+        if (edge.spec === specname) this.removeEdge(edge.id)
       })
     },
     addNode (item) {
       this.$cytoscape.instance.then(cy => {
-        cy.add([ {data: {id: item.id}, position: this.randomNodePos()} ])
-        this.nodes.push({name: item.id, nodeType: item.type})
+        cy.add([ { data: { id: item.id }, position: this.randomNodePos() } ])
+        this.nodes.push({ name: item.id, nodeType: item.type })
       })
     },
     addLink (item) {
       this.$cytoscape.instance.then(cy => {
-        cy.add([ {data: {id: `link${item.source}${item.target}`, source: item.source, target: item.target}} ])
-        this.edges.push({id: `link${item.source}${item.target}`, source: item.source, target: item.target, delay: item.linkDelay, spec: item.linkSpec})
+        cy.add([ { data: { id: `link${item.source}${item.target}`, source: item.source, target: item.target } } ])
+        this.edges.push({ id: `link${item.source}${item.target}`, source: item.source, target: item.target, delay: item.linkDelay, spec: item.linkSpec })
       })
     },
     addSpec (item) {
-      this.specs.push({name: item.specname, plr: item.plr, kbps: item.kbps, delay: item.delay, qlen: item.qlen})
+      this.specs.push({ name: item.specname, plr: item.plr, kbps: item.kbps, delay: item.delay, qlen: item.qlen })
     },
     randomNodePos () {
-      return {x: (Math.floor(Math.random() * 550) + 30), y: (Math.floor(Math.random() * 350) + 30)}
+      return { x: (Math.floor(Math.random() * 550) + 30), y: (Math.floor(Math.random() * 350) + 30) }
     },
     triggerErrors (message) {
       this.formErrors = message
     },
     generateXML () {
-      var xml = XML_BUILDER.create('topology', {version: '1.0', encoding: 'ISO-8859-1'}, { keepNullAttributes: false })
+      var xml = XML_BUILDER.create('topology', { version: '1.0', encoding: 'ISO-8859-1' }, { keepNullAttributes: false })
       var dict = {}
-      if(this.nodes.length > 0) {
+      if (this.nodes.length > 0) {
         var xmlVertices = xml.ele('vertices')
         let counter = 1
         this.nodes.forEach((node) => {
@@ -200,11 +201,11 @@ export default {
           item.att('int_idx', counter)
           dict[node.name] = counter
           item.att('role', node.nodeType)
-          if(node.nodeType == "virtnode") item.att('int_vn', counter)
+          if (node.nodeType === 'virtnode') item.att('int_vn', counter)
           counter++
         })
       }
-      if(this.edges.length > 0) {
+      if (this.edges.length > 0) {
         var xmlEdges = xml.ele('edges')
         let counter = 1
         this.edges.forEach((edge) => {
@@ -213,16 +214,16 @@ export default {
           counter++
         })
       }
-      if(this.specs.length > 0) {
+      if (this.specs.length > 0) {
         var xmlSpecs = xml.ele('specs')
         this.specs.forEach((spec) => {
           var item = xmlSpecs.ele(spec.name)
-          item.att('dbl_plr', spec.plr); item.att('dbl_kbps', spec.kbps); item.att('int_delayms', spec.delay); item.att('int_qlen', spec.qlen);
+          item.att('dbl_plr', spec.plr); item.att('dbl_kbps', spec.kbps); item.att('int_delayms', spec.delay); item.att('int_qlen', spec.qlen)
         })
       }
 
-      this.xml = xml.doc().end( {pretty: true, newline: '\n'} )
-      var editor = ace.edit("xmlEditor")
+      this.xml = xml.doc().end({ pretty: true, newline: '\n' })
+      var editor = ace.edit('xmlEditor')
       editor.getSession().setValue(this.xml)
       this.$emit('addTopology', this.xml)
     },
@@ -233,21 +234,21 @@ export default {
       this.nodes = []
       this.edges = []
       this.specs = []
-      var parsed = JSON.parse(XML_PARSER.xml2json(this.xml, {compact: true, spaces: 4}))
-      if(parsed.topology.vertices) {
+      var parsed = JSON.parse(XML_PARSER.xml2json(this.xml, { compact: true, spaces: 4 }))
+      if (parsed.topology.vertices) {
         parsed.topology.vertices.vertex.forEach((node) => {
-          this.addNode({id: `${node._attributes.role}${node._attributes.int_idx}`, type: node._attributes.role})
+          this.addNode({ id: `${node._attributes.role}${node._attributes.int_idx}`, type: node._attributes.role })
         })
       }
-      if(parsed.topology.specs) {
+      if (parsed.topology.specs) {
         for (var key in parsed.topology.specs) {
           let attr = parsed.topology.specs[key]._attributes
-          this.addSpec({specname: key, plr: attr.dbl_plr, kbps: attr.dbl_kbps, delay: attr.int_delayms, qlen: attr.int_qlen})
+          this.addSpec({ specname: key, plr: attr.dbl_plr, kbps: attr.dbl_kbps, delay: attr.int_delayms, qlen: attr.int_qlen })
         }
         parsed.topology.edges.edge.forEach((edge) => {
-          var src = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_src)-1]
-          var trg = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_dst)-1]
-          this.addLink({source: `${src._attributes.role}${src._attributes.int_idx}`, target: `${trg._attributes.role}${trg._attributes.int_idx}`, linkSpec: edge._attributes.specs, linkDelay: edge._attributes.int_delayms})
+          var src = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_src) - 1]
+          var trg = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_dst) - 1]
+          this.addLink({ source: `${src._attributes.role}${src._attributes.int_idx}`, target: `${trg._attributes.role}${trg._attributes.int_idx}`, linkSpec: edge._attributes.specs, linkDelay: edge._attributes.int_delayms })
         })
       }
     }

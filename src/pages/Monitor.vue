@@ -21,7 +21,6 @@
       <b-button @click="fetchSplayds" :disabled="currentRefresh.splayds" variant="primary mr-1">Refresh &#x21bb;</b-button>
     </div>
 
-
     <h1 class="text-center mt-3">List of your Jobs</h1>
     <hr class="my-4">
 
@@ -55,16 +54,16 @@
 </template>
 
 <script>
-import ListJobs from "@/components/ListJobs";
-import ListSplayd from "@/components/ListSplayd";
-import JobDetail from "@/components/JobDetail";
-import LogsView from "@/components/LogsView";
+import ListJobs from '@/components/ListJobs'
+import ListSplayd from '@/components/ListSplayd'
+import JobDetail from '@/components/JobDetail'
+import LogsView from '@/components/LogsView'
 
-import { listJobsAPI, listSplaydsAPI } from "@/services/api";
+import { listJobsAPI, listSplaydsAPI } from '@/services/api'
 
 export default {
-  name: "Monitor",
-  data() {
+  name: 'Monitor',
+  data () {
     return {
       alerts: {
         success: null,
@@ -75,62 +74,61 @@ export default {
       jobDetailId: null,
       splaydDetailId: null,
       currentRefresh: {
-        jobs:false,
-        splayds:false
+        jobs: false,
+        splayds: false
       },
       dataLogs: null
-    };
+    }
   },
   methods: {
-    detailJob(index) {
-      this.jobDetailId = index;
-      this.$refs.modalDetailJobRef.show();
+    detailJob (index) {
+      this.jobDetailId = index
+      this.$refs.modalDetailJobRef.show()
     },
-    detailSplayd(index) {
-      this.splaydDetailId = index;
-      this.$refs.modalDetailSplaydRef.show();
+    detailSplayd (index) {
+      this.splaydDetailId = index
+      this.$refs.modalDetailSplaydRef.show()
     },
-    jobLogs(value) {
-      this.dataLogs = value;
-      this.$refs.modalDetailJobLogsRef.show();
+    jobLogs (value) {
+      this.dataLogs = value
+      this.$refs.modalDetailJobLogsRef.show()
     },
-    autoRefresh(){
+    autoRefresh () {
       setTimeout(() => {
         this.fetchJobs()
         this.fetchSplayds()
         this.autoRefresh()
       }, 5000)
     },
-    fetchJobs() {
+    fetchJobs () {
       this.currentRefresh.jobs = true
       listJobsAPI(this.auth.token)
         .then(res => {
-          this.jobs = res.data.jobs;
+          this.jobs = res.data.jobs
         })
         .catch(error => {
-          this.alerts.error = error.msg;
+          this.alerts.error = error.msg
         }).finally(() => {
-          setTimeout(() => {this.currentRefresh.jobs = false}, 100)
-        });
+          setTimeout(() => { this.currentRefresh.jobs = false }, 100)
+        })
     },
-    fetchSplayds() {
+    fetchSplayds () {
       this.currentRefresh.splayds = true
       listSplaydsAPI(this.auth.token)
         .then(res => {
-          this.splayds = res.data.splayds;
+          this.splayds = res.data.splayds
         })
         .catch(error => {
-          this.alerts.error = error.msg;
-        }).finally(()=> {
-          setTimeout(() => {this.currentRefresh.splayds = false}, 100)
-        });
-
+          this.alerts.error = error.msg
+        }).finally(() => {
+          setTimeout(() => { this.currentRefresh.splayds = false }, 100)
+        })
     }
   },
-  mounted() {
-    this.fetchJobs();
-    this.fetchSplayds();
-    this.autoRefresh();
+  mounted () {
+    this.fetchJobs()
+    this.fetchSplayds()
+    this.autoRefresh()
   },
   props: {
     auth: Object
@@ -141,7 +139,7 @@ export default {
     ListSplayd,
     LogsView
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
