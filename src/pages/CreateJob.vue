@@ -147,6 +147,7 @@ export default {
   mounted () {
     var me = this
     var editor = ace.edit('aceEditor')
+    editor.$blockScrolling = Infinity
     editor.setTheme('ace/theme/monokai')
     editor.session.setMode('ace/mode/lua')
     editor.getSession().setValue(codeDefault)

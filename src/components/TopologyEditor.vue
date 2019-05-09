@@ -85,6 +85,7 @@ export default {
   mounted () {
     var dis = this
     var editor = ace.edit('xmlEditor')
+    editor.$blockScrolling = Infinity
     editor.setTheme('ace/theme/solarized_light')
     editor.session.setMode('ace/mode/xml')
     editor.getSession().on('change', function () {
