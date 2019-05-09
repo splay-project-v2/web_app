@@ -17,22 +17,24 @@ export default {
   },
   methods: {
     copyToClipboard () {
-      const text = this.logData
-      const txt = document.createElement('textarea')
-      document.body.appendChild(txt)
-      txt.value = text
-      txt.textContent = text
+      // Thanks to :
+      // https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome?rq=1
+      const logText = this.logData
+      const textareaTmp = document.createElement('textarea')
+      document.body.appendChild(textareaTmp)
+      textareaTmp.value = logText
+      textareaTmp.textContent = logText
       var sel = getSelection()
       var range = document.createRange()
-      range.selectNode(txt)
+      range.selectNode(textareaTmp)
       sel.removeAllRanges()
       sel.addRange(range)
       document.execCommand('copy')
-      document.body.removeChild(txt)
+      document.body.removeChild(textareaTmp)
     },
     dynamicDownloadLog () {
-      const text = this.logData
-      var blob = new Blob([text], { type: 'text' })
+      const logText = this.logData
+      var blob = new Blob([logText], { type: 'text' })
       var a = this.$refs.dynamicDL
       a.href = URL.createObjectURL(blob)
       a.dataset.downloadurl = ['text', a.download, a.href].join(':')
