@@ -17,7 +17,7 @@ describe('TopoLinkCreator', () => {
   })
 
   it('cannot save a link if it already exists', () => {
-    const props = { specs: [ 'mySpec' ], nodes: ['A', 'B'], edges: [ {id: 'linkAB'} ] }
+    const props = { specs: [ 'mySpec' ], nodes: ['A', 'B'], edges: [ { id: 'linkAB' } ] }
     const wrapper = shallowMount(TopoLinkCreator, { propsData: props })
     wrapper.vm.source = 'A'
     wrapper.vm.target = 'B'

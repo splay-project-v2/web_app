@@ -5,7 +5,7 @@ const Vue = require('vue')
 Vue.use(BootstrapVue)
 
 describe('TopoNodeCreator', () => {
-  const props = { types: [ 'virtualNode' ], nodes: []}
+  const props = { types: [ 'virtualNode' ], nodes: [] }
   const wrapper = shallowMount(TopoNodeCreator, { propsData: props })
 
   it('is a Vue instance', () => {
@@ -17,7 +17,7 @@ describe('TopoNodeCreator', () => {
   })
 
   it('cannot save a node if it already exists', () => {
-    const props = { types: [ 'virtualNode'], nodes: [ { name: 'A' } ]}
+    const props = { types: [ 'virtualNode' ], nodes: [ { name: 'A' } ] }
     const wrapper = shallowMount(TopoNodeCreator, { propsData: props })
     wrapper.vm.nodeName = 'A'
     expect(wrapper.vm.validateNode()).toBeFalsy()

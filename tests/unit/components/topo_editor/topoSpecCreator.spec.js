@@ -29,7 +29,7 @@ describe('TopoSpecCreator', () => {
   })
 
   it('cannot save a spec if it already exists', () => {
-    const props = { specs: [ { name: 'mySpec'} ] }
+    const props = { specs: [ { name: 'mySpec' } ] }
     const wrapper = shallowMount(TopoSpecCreator, { propsData: props })
     wrapper.vm.specname = 'mySpec'
     expect(wrapper.vm.validateSpec()).toBeFalsy()
