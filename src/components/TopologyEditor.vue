@@ -113,10 +113,10 @@ export default {
           }, {
             selector: 'edge',
             style: {
-              'width': 1,
+              'width': 3,
               'curve-style': 'bezier',
-              'line-color': '#ccc',
-              'target-arrow-color': '#ccc',
+              'line-color': '#363377',
+              'target-arrow-color': '#000000',
               'target-arrow-shape': 'triangle'
             }
           }
