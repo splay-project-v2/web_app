@@ -1,7 +1,10 @@
 <template>
   <div class="container">
-    <a id="dynamicRef" class="d-none" download="log.txt" ref="dynamicDL"></a>
-    <div class="text-center"><b-button block variant="primary" v-on:click="dynamicDownloadLog">Download</b-button></div>
+    <a class="d-none" download="log.txt" ref="dynamicDL"></a>
+    <div class="text-center">
+      <b-button block variant="primary" v-on:click="dynamicDownloadLog">⤓ Download</b-button>
+      <b-button block v-on:click="copyToClipboard">📋 Copy to Clipboard</b-button>
+    </div>
     <pre class="mt-3">{{ logData }}</pre>
   </div>
 </template>
@@ -13,9 +16,25 @@ export default {
     return {}
   },
   methods: {
+    copyToClipboard () {
+      // Thanks to :
+      // https://stackoverflow.com/questions/47879184/document-execcommandcopy-not-working-on-chrome?rq=1
+      const logText = this.logData
+      const textareaTmp = document.createElement('textarea')
+      document.body.appendChild(textareaTmp)
+      textareaTmp.value = logText
+      textareaTmp.textContent = logText
+      var sel = getSelection()
+      var range = document.createRange()
+      range.selectNode(textareaTmp)
+      sel.removeAllRanges()
+      sel.addRange(range)
+      document.execCommand('copy')
+      document.body.removeChild(textareaTmp)
+    },
     dynamicDownloadLog () {
-      const text = this.logData
-      var blob = new Blob([text], { type: 'text' })
+      const logText = this.logData
+      var blob = new Blob([logText], { type: 'text' })
       var a = this.$refs.dynamicDL
       a.href = URL.createObjectURL(blob)
       a.dataset.downloadurl = ['text', a.download, a.href].join(':')
