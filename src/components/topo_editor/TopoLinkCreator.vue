@@ -18,7 +18,13 @@
         </b-form-select>
       </div>
       <div class="form-group col-xs-6">
-        <b-form-input type="text" placeholder="Delay(ms) - Optional" v-model="linkDelay"/>
+        <b-form-input type="number" placeholder="Delay(ms) - Optional" v-model="linkDelay"/>
+      </div>
+      <div v-if="enabledPlr" class="form-group col-xs-6">
+        <b-form-input type="number" v-model="plr" placeholder="Packet Loss rate"/>
+      </div>
+      <div v-if="enabledKbps" class="form-group col-xs-6">
+        <b-form-input type="number" v-model="kbps" placeholder="Kbps"/>
       </div>
       <div class="form-group col-xs-4">
         <b-form-select v-model="linkSpec">
@@ -32,6 +38,10 @@
         <b-button variant="primary" type="submit">Add link</b-button>
       </div>
     </div>
+    <b-form-group label="Enable additional options for links">
+      <b-form-checkbox v-model="enabledPlr" name="Plr" inline>Packet Loss Rate</b-form-checkbox>
+      <b-form-checkbox v-model="enabledKbps" name="Delay" inline>Speed in Kbps</b-form-checkbox>
+    </b-form-group>
   </b-form>
 </template>
 
@@ -43,13 +53,25 @@ export default {
       source: null,
       target: null,
       linkSpec: null,
-      linkDelay: null
+      linkDelay: null,
+      plr: null,
+      kbps: null,
+      enabledPlr: false,
+      enabledKbps: false,
+      enabledQlen: false
     }
   },
   methods: {
     submitLink () {
       if (this.validateLink()) {
-        this.$emit('addLink', { source: this.source, target: this.target, linkSpec: this.linkSpec, linkDelay: this.linkDelay })
+        this.$emit('addLink', {
+          source: this.source,
+          target: this.target,
+          linkSpec: this.linkSpec,
+          linkDelay: this.linkDelay,
+          plr: this.plr,
+          kbps: this.kbps
+        })
         this.$emit('triggerErrors', null)
         this.source = null
         this.target = null

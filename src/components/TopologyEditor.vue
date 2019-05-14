@@ -178,7 +178,7 @@ export default {
     addLink (item) {
       this.$cytoscape.instance.then(cy => {
         cy.add([ { data: { id: `link${item.source}${item.target}`, source: item.source, target: item.target } } ])
-        this.edges.push({ id: `link${item.source}${item.target}`, source: item.source, target: item.target, delay: item.linkDelay, spec: item.linkSpec })
+        this.edges.push({ id: `link${item.source}${item.target}`, source: item.source, target: item.target, delay: item.linkDelay, spec: item.linkSpec, plr: item.plr, kbps: item.kbps })
       })
     },
     addSpec (item) {
@@ -210,7 +210,7 @@ export default {
         let counter = 1
         this.edges.forEach((edge) => {
           var item = xmlEdges.ele('edge')
-          item.att('int_idx', counter); item.att('int_src', dict[edge.source]); item.att('int_dst', dict[edge.target]); item.att('int_delayms', edge.delay); item.att('specs', edge.spec)
+          item.att('int_idx', counter); item.att('int_src', dict[edge.source]); item.att('int_dst', dict[edge.target]); item.att('int_delayms', edge.delay); item.att('specs', edge.spec); item.att('dbl_kbps', edge.kbps); item.att('dbl_plr', edge.plr)
           counter++
         })
       }
@@ -248,7 +248,14 @@ export default {
         parsed.topology.edges.edge.forEach((edge) => {
           var src = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_src) - 1]
           var trg = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_dst) - 1]
-          this.addLink({ source: `${src._attributes.role}${src._attributes.int_idx}`, target: `${trg._attributes.role}${trg._attributes.int_idx}`, linkSpec: edge._attributes.specs, linkDelay: edge._attributes.int_delayms })
+          this.addLink({
+            source: `${src._attributes.role}${src._attributes.int_idx}`,
+            target: `${trg._attributes.role}${trg._attributes.int_idx}`,
+            linkSpec: edge._attributes.specs,
+            linkDelay: edge._attributes.int_delayms,
+            kbps: edge._attributes.dbl_kbps,
+            plr: edge._attributes.dbl_plr
+          })
         })
       }
     }
