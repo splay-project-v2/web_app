@@ -5,17 +5,14 @@ const URL_API_V1 = 'http://127.0.0.1:8081/api/v1'
 function handlingErrorAPI (error) {
   var msg = error
   // eslint-disable-next-line
-    console.error(error);
+  console.error(error);
   if (error.response) {
     msg = 'Server response : ' + error.response.data.errors
   } else {
     msg = 'Error : ' + error.message
   }
-
-  throw new Error({
-    msg: msg,
-    source: error
-  })
+  // eslint-disable-next-line
+  throw { msg: msg, source: error }
 }
 
 function loginAPI (user, password) {
