@@ -31,7 +31,7 @@
           <div>
             <h6>Edges</h6>
             <b-button variant="outline-primary" size="sm" type="button" v-for="(edge, index) in edges" :key="index" @click="removeEdge(edge.id)" name="button">
-              {{ edge.id }} | [delay({{edge.delay}}ms) - spec({{edge.spec}})] ×
+              {{ edge.id }} | [delay({{edge.delay}}ms) - spec({{edge.spec}}) - qlen({{edge.qlen}}) - plr({{edge.plr}})] ×
             </b-button>
           </div>
 
@@ -236,7 +236,7 @@ export default {
       this.specs = []
       var parsed = JSON.parse(XML_PARSER.xml2json(this.xml, { compact: true, spaces: 4 }))
       if (parsed.topology.vertices) {
-        parsed.topology.vertices.vertex.forEach((node) => {
+        this.makeArray(parsed.topology.vertices.vertex).forEach((node) => {
           this.addNode({ id: `${node._attributes.role}${node._attributes.int_idx}`, type: node._attributes.role })
         })
       }
@@ -245,7 +245,7 @@ export default {
           let attr = parsed.topology.specs[key]._attributes
           this.addSpec({ specname: key, plr: attr.dbl_plr, kbps: attr.dbl_kbps, delay: attr.int_delayms, qlen: attr.int_qlen })
         }
-        parsed.topology.edges.edge.forEach((edge) => {
+        this.makeArray(parsed.topology.edges.edge).forEach((edge) => {
           var src = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_src) - 1]
           var trg = parsed.topology.vertices.vertex[parseInt(edge._attributes.int_dst) - 1]
           this.addLink({
@@ -258,6 +258,9 @@ export default {
           })
         })
       }
+    },
+    makeArray (item) {
+      return Array.isArray(item) ? item : [item]
     }
   }
 }

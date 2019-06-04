@@ -77,6 +77,8 @@ export default {
         this.target = null
         this.linkSpec = null
         this.linkDelay = null
+        this.plr = null
+        this.kbps = null
       }
     },
     validateLink () {
