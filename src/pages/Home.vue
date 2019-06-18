@@ -1,24 +1,79 @@
 <template>
   <div class="container">
-    <h1 class="text-center" v-if="auth.isAuth">Welcome {{ auth.username }}</h1>
+    <h1 class="text-center" v-if="auth.isAuth">Welcome {{ auth.username }} to Splay</h1>
     <h1 class="text-center" v-else>Welcome to Splay</h1>
     <hr class="my-4">
-    <p>Nisi nibh nisi dictumst risus diam vestibulum taciti sollicitudin risus hac iaculis eros. Felis, a ultrices sed mattis justo blandit nisi purus luctus diam porta cras. Justo senectus natoque penatibus purus. Risus aptent vitae litora curabitur ultricies elementum sit, pulvinar mollis. Amet, feugiat mollis nostra euismod turpis vel cum blandit quis. Integer interdum luctus mus nam magnis tempor nunc urna. Pretium penatibus vivamus morbi nostra pellentesque dapibus. Pretium dui conubia tellus ut platea, ipsum platea. Et cras iaculis sociis. Neque sociis iaculis torquent rutrum. Per molestie sit congue at.</p>
-    <p>Sed consectetur porta et risus duis fusce suscipit a lectus class. Maecenas pretium laoreet aliquet nec sit id. Hac velit faucibus egestas, nam at hac per. Velit tortor bibendum ut sociis interdum. Metus sagittis eget natoque dolor, suspendisse tellus. Eros curae; vivamus porta feugiat mauris orci sed rutrum imperdiet! Sem viverra donec elit ut magnis eget? Justo tristique, viverra ultricies. Vulputate taciti arcu nisi elementum faucibus augue praesent platea risus tempor natoque. Ridiculus sollicitudin eget phasellus egestas consequat porta euismod lobortis duis. Mattis viverra fames?</p>
-    <p>Ac congue auctor curabitur fermentum. Vehicula quam, dignissim torquent? Ridiculus facilisi posuere mi quisque ipsum sociosqu sodales volutpat montes leo. Phasellus egestas eu ac fringilla, integer purus hendrerit adipiscing dis! Pellentesque nec ipsum consectetur sodales massa tempor praesent lacus massa quis. Cras suspendisse litora metus pulvinar rhoncus purus lectus. Eget cursus semper.</p>
-    <p>Diam quis pellentesque sit volutpat condimentum integer sociis. Nec porttitor nam himenaeos. Venenatis, aptent nulla hac suspendisse. Ut quam quisque vestibulum commodo cum justo elit laoreet dapibus. Volutpat facilisi fames vulputate lorem cum posuere habitant egestas tincidunt. Nibh torquent accumsan fusce consequat porttitor felis, rutrum torquent laoreet sapien. Suspendisse placerat litora convallis, dignissim convallis rhoncus per quisque? Dolor consequat curabitur condimentum. Vehicula hendrerit non aliquet aenean etiam ipsum aliquam nullam eleifend scelerisque ad vestibulum. Dictumst nulla et erat condimentum! Libero sociosqu nascetur lacinia ante conubia convallis ad mollis senectus sem! Per sociosqu sem posuere hac.</p>
-    <p>Consectetur hendrerit litora porttitor lobortis iaculis curae; molestie cubilia auctor ligula torquent quam. Torquent suspendisse varius vehicula fusce eros id, sit ac fermentum dis sociosqu. Cubilia, leo etiam lacinia gravida urna vehicula ligula habitasse vel. Inceptos at, nec eros sociis nostra duis. Malesuada, per cras imperdiet pharetra. Per velit dolor commodo id. Interdum placerat bibendum, at sociis vitae pharetra? Pulvinar inceptos fames suspendisse ac luctus sit ipsum nulla mus velit aliquet cum. Habitant porttitor nisl commodo mauris conubia nascetur. Nec senectus metus fringilla eget montes cras tristique nulla in. Class facilisi.</p>
-    <p>Potenti lorem quisque vitae, lacinia leo vehicula pellentesque. Etiam nisl velit fermentum, massa nascetur! Consequat suscipit venenatis scelerisque integer senectus platea arcu ridiculus nec blandit turpis? Orci fusce porta nulla vel magna! Lacus vel vitae vehicula non non semper? Consequat viverra semper semper dapibus cubilia feugiat himenaeos vel. Laoreet euismod ligula velit tristique habitasse dapibus netus orci euismod urna nostra laoreet. Erat feugiat urna odio conubia varius nisl tortor. Cras senectus eleifend dapibus velit.</p>
-    <p>Mi iaculis scelerisque convallis consectetur interdum posuere magnis litora ad sodales? Aliquam donec rhoncus metus curae;, lacus molestie velit nostra. Elementum sagittis tellus mauris congue rhoncus et quisque vivamus etiam sem euismod. Nec et nam augue ultricies facilisi ullamcorper malesuada eros. Aenean augue phasellus libero dis ornare ac. Vulputate inceptos purus duis et hendrerit suspendisse varius euismod mollis euismod.</p>
-    <p>Porta volutpat aenean cum mus tristique proin velit imperdiet blandit. Nunc eros ornare vulputate fusce leo duis nulla fermentum gravida ipsum nibh arcu. Porta eu ante lobortis vulputate senectus tristique velit tortor facilisis aenean mauris. Vulputate himenaeos curae; aenean pretium id? Lacinia vivamus magna netus pulvinar conubia quisque curabitur litora mauris tincidunt turpis ridiculus. Leo aptent.</p>
-    <p>Posuere id cubilia, mus libero ullamcorper netus! Vehicula, hac felis libero commodo blandit massa. Sociosqu viverra urna curae; facilisi fermentum. Aenean, gravida donec ultrices. Nibh enim morbi nascetur ultrices augue habitant cursus cras non hac pretium semper. Nec viverra pharetra himenaeos ut mollis gravida varius! Consequat vitae cubilia luctus convallis accumsan cursus porttitor. Magna cubilia arcu.</p>
-    <p>Leo in ut facilisi parturient tempus fermentum himenaeos. Taciti et class etiam curae;! Maecenas feugiat pretium duis auctor etiam dolor ante eros proin porttitor magnis. Dictumst torquent commodo ultrices. Diam elit vitae vitae amet nisl metus sociis dignissim imperdiet? Porta curabitur phasellus tempus integer porttitor integer gravida tortor! Nibh himenaeos suspendisse, volutpat fusce sodales. Est ligula nascetur quis nulla euismod nisi cras hac facilisi ridiculus faucibus. Netus diam nam conubia proin non vivamus hendrerit ornare porttitor.</p>
-    <p>Penatibus aliquet primis eleifend. Sapien ut massa proin cras penatibus ipsum odio quis. Ad donec habitant auctor. Conubia netus gravida maecenas vitae in rutrum erat vivamus inceptos blandit suspendisse pharetra. Libero porttitor fames erat sed maecenas auctor fermentum. Ultricies morbi eleifend torquent aptent purus facilisi a euismod integer vulputate? Ut neque vel senectus facilisis donec, accumsan risus nullam faucibus sit eu natoque. Class pulvinar sagittis mi dis placerat ornare fusce tellus? Pretium senectus conubia himenaeos nibh et sociis.</p>
-    <p>A mollis accumsan fames consequat eros vel magnis! Rutrum faucibus conubia dui. Auctor erat justo justo at facilisis non lacinia. Vestibulum felis ridiculus sed cum. Condimentum elementum morbi habitasse quam iaculis nunc? Curae; gravida sagittis magnis facilisi a class vehicula ipsum. Lobortis habitant dignissim vulputate torquent commodo ridiculus magnis nunc magnis tristique justo. Viverra potenti.</p>
-    <p>Rutrum ut cras netus cubilia. Torquent integer ultricies eu mollis rhoncus taciti lorem rhoncus ut mus natoque. Ad penatibus mauris a accumsan laoreet netus tincidunt aenean, vel curabitur. Dictumst, ligula duis primis? Lobortis elit vel pretium viverra interdum maecenas eget imperdiet? Congue tristique penatibus hac aptent congue sollicitudin a fringilla mus feugiat. Lorem commodo litora cubilia enim nulla. Congue lacus nascetur metus. Mauris nascetur pharetra nullam eros leo in pulvinar egestas vel, habitasse justo. Molestie ornare primis ultrices.</p>
-    <p>Tempor est nisl dictum leo arcu scelerisque! Felis eros placerat tincidunt torquent neque cras. Sapien pellentesque tellus nec orci risus tincidunt odio risus phasellus! Nascetur, imperdiet inceptos bibendum. Tristique integer, facilisis pellentesque leo habitasse dictum. Nulla eget suscipit libero? Luctus fermentum fermentum vulputate lacus lorem eleifend ullamcorper lorem! Turpis laoreet sollicitudin luctus nunc porta fusce vivamus scelerisque. Odio nibh vestibulum fermentum sagittis porttitor curae; massa ultrices nam. Mattis suspendisse nibh faucibus ante?</p>
-    <p>Luctus platea vestibulum odio netus lorem faucibus lectus libero commodo? Consectetur imperdiet per ridiculus augue malesuada pretium arcu pharetra et quis enim. Conubia lacus mauris pharetra id himenaeos vel egestas donec. Vulputate neque, gravida venenatis felis felis posuere. Malesuada praesent montes dapibus litora libero sapien ullamcorper molestie. Vel fermentum dui pellentesque imperdiet penatibus tincidunt aliquam mattis accumsan curae;. Rhoncus ornare interdum elementum conubia facilisi dignissim in enim cursus bibendum laoreet. Aenean torquent nascetur cubilia quam et, et convallis libero odio cras suscipit. Bibendum blandit et praesent. Consequat netus sagittis quam faucibus dignissim justo ante lacinia platea? Auctor vitae.</p>
-  </div>
+    <h3>Overview</h3>
+    <div>
+      Splay simplifies the prototyping and development of large-scale distributed applications and overlay networks. 
+      Splay covers the complete chain of distributed system design, development and testing: from coding and local runs
+      to controlled deployment, experiment control and monitoring. Splay allows developers to specify their distributed 
+      applications in a concise way using a specialized language based on Lua, a highly-efficient embeddable scripting 
+      language. Splay applications execute in a safe environment with restricted access to local resources (file system, network, memory)
+      and can be instantiated on a large variety of testbeds composed a large set of nodes with a single command.
+    </div>
+    <h3>Getting started</h3>
+    <div>
+      The main research paper that describes Splay, evaluates its performances and presents several 
+      typical experiments has been published in the proceedings of the 6th USENIX Symposium on Networked
+      Systems Design and Implementation (NSDI'09).
+
+      SplayNet implements topology emulation features for Splay.
+      It has been published in the Proceedings of the 14th ACM/IFIP/USENIX International Middleware Conference (MIDDLEWARE'13).
+
+      The SPLAY NSDI'09 paper is available as a 
+      <a target="_blank" href="https://www.usenix.org/legacy/event/nsdi09/tech/full_papers/leonini/leonini_html/">web page</a>.
+
+      The SplayNet MIDDLEWARE'13 is available as 
+      <a target="_blank" href="http://members.unine.ch/valerio.schiavoni/publications/splaynet_middleware13.pdf">PDF</a>.
+
+      A more recent version of SPLAY (Version 2) has been written with new technologies or more recent version.
+      Also, the structure has been simplified and improved. Check the new 
+      <a href="https://github.com/splay-project-v2" target="_blank">Github Organisation</a>.
+    </div>
+    <h3>More information</h3>
+    <div>
+      You can find more information about Splay :
+      <a
+          href="https://github.com/splay-project-v2"
+          target="_blank"
+          class="font-weight-bold"
+        >Github Organisation</a>
+        -
+      <a
+        href="http://www.splay-project.org/"
+        target="_blank"
+        class="font-weight-bold"
+      >Official Website</a>
+    </div>
+    <h3>Start</h3>
+    <div>
+      <router-link
+        v-if="!auth.isAuth"
+        tag="button"
+        to="/register"
+        class="btn btn-secondary mr-2"
+        type="button"
+      >Register</router-link>
+
+      <router-link
+        v-if="!auth.isAuth"
+        tag="button"
+        to="/login"
+        id="btn-header-login"
+        class="btn btn-success"
+        type="button"
+      >Login</router-link>
+
+      <router-link
+        v-if="auth.isAuth"
+        tag="button"
+        to="/monitor"
+        class="btn btn-primary mr-2"
+        type="button"
+      >Monitor Splay</router-link>
+    </div>
+   </div>
 </template>
 
 <script>

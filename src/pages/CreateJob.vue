@@ -103,16 +103,16 @@ require('brace/theme/monokai')
 
 const codeDefault = `--[[
 
-Small script to test splay, just log the different neighbours during 1 minutes
+Small script to test splay, just log the different endpoints
 
 --]]
 
 require("splay.base")
-print("Discovering Job - launch during 1 minute - v1")
+print("Discovering Job - v1")
 
-neighbours = job.nodes
+endpoints = job.nodes
 print("I am link to :")
-for _, n in pairs(neighbours) do print(" - "..n.ip..":"..n.port) end
+for _, n in pairs(endpoints) do print(" - "..n.ip..":"..n.port) end
 
 print("Exit Discovering Job")`
 
